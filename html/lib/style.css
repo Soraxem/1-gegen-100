@@ -1,0 +1,128 @@
+
+@font-face {
+    font-family: Noto Sans;
+    src: url('/lib/noto-sans.ttf');
+}
+
+* {
+    font-family: Noto Sans;
+}
+
+h1 {
+    text-align: center;
+    font-weight: 800;
+}
+
+h1 {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#bfd255+0,8eb92a+50,72aa00+51,9ecb2d+100;Green+Gloss */
+    background: linear-gradient(to bottom,  #bfd255 0%,#8eb92a 50%,#72aa00 51%,#9ecb2d 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+
+    color: white;
+
+    border-width: 1px;
+    border-style: solid;
+    border-bottom-color: #1d7c00;
+    border-left-color: #bfeeb1;
+    border-right-color: #66a752;
+    border-top-color: #bfeeb1;
+
+    padding: 10px;
+    margin: 10px;
+}
+
+.container > * {
+  grid-column: span 12;
+}
+
+.button,
+.textfield {
+    padding: 10px 20px;
+    margin: 10px ;
+
+    font-size: medium;
+
+    box-sizing: border-box;
+
+    border-width: 1px;
+    border-style: solid;
+    border-color: #1d7c00;
+    border-radius: 5px;
+}
+
+.button:hover,
+.textfield:hover {
+    padding: 15px 25px;
+    margin: 5px;
+}
+
+.button:active {
+    margin: 15px;
+    padding: 5px 15px;
+}
+
+.button {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#bfd255+0,8eb92a+50,72aa00+51,9ecb2d+100;Green+Gloss */
+    background: linear-gradient(to bottom,  #bfd255 0%,#8eb92a 50%,#72aa00 51%,#9ecb2d 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+
+    font-weight: bold;
+    
+    cursor: pointer;
+    
+    border-radius: 5px;
+    color: white;
+    text-decoration: none;
+    text-align: center;
+}
+
+form {
+    display: flex;
+    width: 100%;
+}
+
+.textfield {
+    min-width: 10px;
+    flex-grow: 1;
+}
+
+
+body {
+    background-color: #042000;
+}
+
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#cdeb8e+0,a5c956+100;Green+3D+%232 */
+    background: linear-gradient(to bottom,  #cdeb8e 0%,#a5c956 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    border-radius: 5px;
+
+    padding: 20px;
+
+    margin-top: 200px;
+    margin: 20px 20px;
+}
+
+@media (min-width: 576px) {
+  .container {
+    margin: 50px 150px;
+  }
+}
+
+@media (min-width: 756px) {
+  .container {
+    margin: 100px 220px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    margin: 100px 300px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    margin: 100px 400px;
+  }
+}
