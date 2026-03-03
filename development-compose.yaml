@@ -1,0 +1,8 @@
+services:
+  artman:
+    build:
+      context: .
+      dockerfile: development.dockerfile
+    volumes:
+      - ./:/app
+    network_mode: host
