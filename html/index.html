@@ -13,11 +13,13 @@
 
     <h1>1 Gegen 100</h1>
 
-<button class="button">create new room</button>
 
 
-<input type="text" name="room" placeholder="Room ID" class="textfield">
-<button class="button" onclick="validate_correct_room()">join room</button>
+
+<input type="text" id="room_id" placeholder="Room Name" class="textfield">
+
+<button class="button" onclick="join_room()">join room</button>
+<button class="button" onclick="create_room()">create room</button>
 
 
 
@@ -29,20 +31,31 @@
 </html>
 
 <script>
-    async function validate_correct_room() {
-        let room = document.forms["join_room"]["room"].value;
+    async function join_room() {
+        let room = document.getElementById("room_id").value;
         if (room == "") {
-            alert("Please enter a room ID");
+            alert("Please enter a room name");
             return false;
         }
         
-        let response = await fetch("/room/" + room + "/exists").then(response => response.text());
-        alert(response);
+        let response = await fetch("/api/room/" + room + "/exists").then(response => response.text());
         let exists = response === "true";
 
         if (!exists) {
-            alert("Room does not exist");
+            alert("This room does not exist!");
             return false;
+        } else {
+            window.location.href = "/play/?room=" + room;
         }
     }
+
+    async function create_room() {
+        let room = document.getElementById("room_id").value;
+        if (room == "") {
+            alert("Please enter a room name");
+        } else {
+            window.location.href = "/room/?room=" + room;
+        }
+    }
+
 </script>

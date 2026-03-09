@@ -97,18 +97,14 @@ fn room_exists(state: &State<AppState>, room_id: String) -> bool {
 
 
 #[get("/room/<room_id>/manager")]
-fn manage_room(state: &State<AppState>, room_id: String) -> EventStream![] {
+async fn manage_room(state: &State<AppState>, room_id: String) -> EventStream![] {
     
     let room = Room {
         users: Vec::new(),
     };
 
-    // add room if not exists
-    match state.rooms.read().unwrap().get(&room_id) { 
-        Some(found_room) =>  (),
-        None => {
-            state.rooms.write().unwrap().insert(room_id.to_string(), RwLock::new(room));
-        },
+    if !room_exists(state, room_id.clone()) {
+        state.rooms.write().unwrap().insert(room_id.to_string(), RwLock::new(room));
     }
 
     let mut rx = state.tx.subscribe();

@@ -1,25 +1,67 @@
 
 
 
+
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="/lib/style.css">
+
+
+
+
+
+<div class="container">
+
+    <h1>Joining "room"</room></h1>
+
+<form action="/join">
+    <input type="text" name="username" placeholder="Username" class="textfield">
+    <input type="submit" value="Submit" class="button">
+</form>
+
+
+</div>
+
+
+
+</html>
+
+
 <script>
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const room = urlParams.get('room');
+
+
+    function handleMessage(event) {
+        const data = JSON.parse(event.data);
+        console.log(data);
+
+        switch (event.kind) {
+            case "UserJoined":
+                console.log("User joined");
+                break;
+            default:
+                console.log("Unknown event kind: " + event.kind);
+                break;
+        }
+
+    }
+
+
     let es;
-    let reconnectTimeout = 1000;
-    let reconnectAttempts = 0;
+    let reconnectTimeout = 1000
 
     function connect() {
-        es = new EventSource("/api/room/test/manager");
+        es = new EventSource("/api/room/" + room + "/manager");
         es.addEventListener("error", (event) => {
             if (event.type === "error") {
-                console.log("Connection dropped. Reconnecting in " + reconnectTimeout + "ms");
+                console.log("Connection dropped. Reconnecting... ");
                 setTimeout(connect, reconnectTimeout);
-                reconnectTimeout *= 2;
-                reconnectAttempts++;
             }
         });
-        es.addEventListener("message", (event) => {
-            const data = JSON.parse(event.data);
-            console.log(data);
-        });
+        es.addEventListener("message", handleMessage);
     }
 
     connect();
