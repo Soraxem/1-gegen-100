@@ -6,6 +6,7 @@ use rocket::http::Status;
 use rocket::request::FromRequest;
 use rocket::Request;
 use rocket::http::Cookie;
+use rocket::http::CookieJar;
 use rocket::http::SameSite;
 
 use rocket::fairing::AdHoc;
@@ -117,15 +118,13 @@ async fn manage_room(state: &State<AppState>, room_id: String) -> EventStream![]
             };
 
             if event.room_id == room_id {
-                yield Event::json(&event);
+                yield Event::json(&event.kind);
             }
             
         }
     }
     
 }
-
-
 
 #[get("/room/<room_id>/exists")]
 fn check_room(state: &State<AppState>, room_id: String) -> String {
@@ -136,6 +135,8 @@ fn check_room(state: &State<AppState>, room_id: String) -> String {
         "false".to_string()
     }
 }
+
+
 
 #[get("/room/<room_id>/player")]
 fn join_room(state: &State<AppState>, user: User, room_id: String) -> EventStream![] {
@@ -169,31 +170,33 @@ fn join_room(state: &State<AppState>, user: User, room_id: String) -> EventStrea
             };
 
             if event.room_id == room_id {
-                yield Event::json(&event);
+                yield Event::json(&event.kind);
             }
             
         }
     }
 }
 
-#[get("/events")]
-fn listen_events(state: &State<AppState>) -> EventStream![] {
-    let mut rx = state.tx.subscribe();
-    EventStream! {
-        loop {
-            let event = match rx.recv().await {
-                Ok(event) => event,
-                Err(_) => break,
-            };
+// Set username
+#[get("/player/set-username/<name>?<room>")]
+fn update_player_name(room: String, old_user: User, name: String, jar: &CookieJar<'_>, state: &State<AppState>) -> String {
 
-            yield Event::json(&event);
-        }
-    }
-}
+    let mut user = old_user.clone();
+    user.name = name;
 
-#[get("/send_event")]
-fn test_event(state: &State<AppState>) {
-    let _ = state.tx.send(AppEvent{ room_id: "test".to_string(), kind: EventKind::UserJoined { user: new_user() } });
+    let new_cookie = Cookie::build(("user_token", serde_json::to_string(&user).unwrap()))
+        .path("/")
+        .secure(true)
+        .same_site(SameSite::Lax);
+
+    jar.add(new_cookie);
+
+    let _ = state.tx.send(AppEvent {
+        room_id: room.clone(),
+        kind: EventKind::UserUpdated { user: user.clone() },
+    });
+
+    "ok".to_string()
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
@@ -205,6 +208,7 @@ struct AppEvent {
 #[derive(Serialize, Deserialize, Clone, Debug)]
 enum EventKind {
     UserJoined { user: User },
+    UserUpdated { user: User },
     UserLeft { user: User },
 }
 
@@ -219,7 +223,7 @@ fn rocket() -> _ {
     let (tx, _rx) = broadcast::channel(1024);
 
     rocket::build()
-        .mount("/api", routes![listen_events, test_event, manage_room, join_room, check_room])
+        .mount("/api", routes![manage_room, join_room, check_room, update_player_name])
         .mount("/", FileServer::from(relative!("html")))
         .manage(AppState {
             tx,

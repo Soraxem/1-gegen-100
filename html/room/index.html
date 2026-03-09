@@ -13,12 +13,11 @@
 
 <div class="container">
 
-    <h1>Joining "room"</room></h1>
+    <h1>Room</h1>
 
-<form action="/join">
-    <input type="text" name="username" placeholder="Username" class="textfield">
-    <input type="submit" value="Submit" class="button">
-</form>
+<ul id="users" style="display: grid; grid-template-columns: repeat(3, 1fr);">
+    
+</ul>
 
 
 </div>
@@ -26,6 +25,10 @@
 
 
 </html>
+
+<template id="user-entry">
+    <li id="user-id">There is an Error!</li>
+</template>
 
 
 <script>
@@ -35,13 +38,32 @@
 
 
     function handleMessage(event) {
+        // Parse all the recieved Data
         const data = JSON.parse(event.data);
-        console.log(data);
 
-        switch (event.kind) {
+        // Fetch the object name of the event
+        const kind = Object.keys(data)[0];
+
+        switch (kind) {
             case "UserJoined":
-                console.log("User joined");
+
+                // Add the user to the list, if not already existing
+                const existingEntry = document.getElementById(data.UserJoined.user.id);
+                if (!existingEntry) {
+                    const userEntry = document.importNode(document.getElementById("user-entry").content, true);
+                    userEntry.children[0].textContent = data.UserJoined.user.name;
+                    userEntry.children[0].id = data.UserJoined.user.id;
+                    document.getElementById("users").appendChild(userEntry);
+                } else {
+                    existingEntry.textContent = data.UserJoined.user.name;
+                }
+
                 break;
+
+            case "UserUpdated":
+                document.getElementById(data.UserUpdated.user.id).textContent = data.UserUpdated.user.name;
+                break;
+
             default:
                 console.log("Unknown event kind: " + event.kind);
                 break;
@@ -53,6 +75,7 @@
     let es;
     let reconnectTimeout = 1000
 
+    // Start streaming events
     function connect() {
         es = new EventSource("/api/room/" + room + "/manager");
         es.addEventListener("error", (event) => {

@@ -14,10 +14,8 @@
 
     <h1>Joining "room"</room></h1>
 
-<form action="/join">
-    <input type="text" name="username" placeholder="Username" class="textfield">
-    <input type="submit" value="Submit" class="button">
-</form>
+<input type="text" id="username" placeholder="Nickname" class="textfield">
+<button class="button" onclick="update_player()">join room</button>
 
 
 </div>
@@ -28,6 +26,18 @@
 
 
 <script>
+
+    async function update_player() {
+        let username = document.getElementById("username").value;
+        if (username == "") {
+            alert("Please enter a Nickname");
+            return false;
+        }
+
+        let response = await fetch("/api/player/set-username/" + username + "?room=" + room);
+    }
+
+
 
     const urlParams = new URLSearchParams(window.location.search);
     const room = urlParams.get('room');
