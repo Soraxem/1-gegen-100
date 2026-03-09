@@ -13,17 +13,36 @@
 
     <h1>1 Gegen 100</h1>
 
-
 <button class="button">create new room</button>
 
-<form action="/join">
-    <input type="text" name="room" placeholder="Room ID" class="textfield">
-    <input type="submit" value="Join Room" class="button">
-</form>
+
+<input type="text" name="room" placeholder="Room ID" class="textfield">
+<button class="button" onclick="validate_correct_room()">join room</button>
+
 
 
 </div>
 
 
 
+
 </html>
+
+<script>
+    async function validate_correct_room() {
+        let room = document.forms["join_room"]["room"].value;
+        if (room == "") {
+            alert("Please enter a room ID");
+            return false;
+        }
+        
+        let response = await fetch("/room/" + room + "/exists").then(response => response.text());
+        alert(response);
+        let exists = response === "true";
+
+        if (!exists) {
+            alert("Room does not exist");
+            return false;
+        }
+    }
+</script>

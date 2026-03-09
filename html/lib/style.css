@@ -95,7 +95,7 @@ body {
     grid-template-columns: repeat(12, 1fr);
     /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#cdeb8e+0,a5c956+100;Green+3D+%232 */
     background: linear-gradient(to bottom,  #cdeb8e 0%,#a5c956 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    border-radius: 5px;
+    border-radius: 25px;
 
     padding: 20px;
 

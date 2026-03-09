@@ -1,0 +1,26 @@
+
+
+
+<script>
+    let es;
+    let reconnectTimeout = 1000;
+    let reconnectAttempts = 0;
+
+    function connect() {
+        es = new EventSource("/api/room/test/manager");
+        es.addEventListener("error", (event) => {
+            if (event.type === "error") {
+                console.log("Connection dropped. Reconnecting in " + reconnectTimeout + "ms");
+                setTimeout(connect, reconnectTimeout);
+                reconnectTimeout *= 2;
+                reconnectAttempts++;
+            }
+        });
+        es.addEventListener("message", (event) => {
+            const data = JSON.parse(event.data);
+            console.log(data);
+        });
+    }
+
+    connect();
+</script>
