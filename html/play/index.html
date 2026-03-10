@@ -12,11 +12,17 @@
 
 <div class="container">
 
-    <h1>Joining "room"</room></h1>
+    <nav>
+        <a id="room">Room</a>
+        <button>Game</button>
+        <button>Nick</button>
+        <button>Leave</button>
+    </nav>
 
-<input type="text" id="username" placeholder="Nickname" class="textfield">
-<button class="button" onclick="update_player()">join room</button>
-
+    <div id="content" >
+        <input type="text" id="username" placeholder="Nickname" class="textfield">
+        <button onclick="update_player()">join room</button>
+    </div>
 
 </div>
 
@@ -42,6 +48,7 @@
     const urlParams = new URLSearchParams(window.location.search);
     const room = urlParams.get('room');
 
+    document.getElementById("room").textContent = "Room: " + room;
 
     let es;
     let reconnectTimeout = 1000;

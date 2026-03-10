@@ -13,7 +13,7 @@
 
 <div class="container">
 
-    <h1>Room</h1>
+    <h1 id="room">Room</h1>
 
 <ul id="users" style="display: grid; grid-template-columns: repeat(3, 1fr);">
     
@@ -35,6 +35,8 @@
 
     const urlParams = new URLSearchParams(window.location.search);
     const room = urlParams.get('room');
+
+    document.getElementById("room").textContent = "Room: " + room;
 
 
     function handleMessage(event) {

@@ -30,11 +30,13 @@ h1 {
     margin: 10px;
 }
 
+
+
 .container > * {
   grid-column: span 12;
 }
 
-.button,
+button,
 .textfield {
     padding: 10px 20px;
     margin: 10px ;
@@ -49,18 +51,18 @@ h1 {
     border-radius: 5px;
 }
 
-.button:hover,
-.textfield:hover {
+button:hover,
+input[type="text"]:hover {
     padding: 15px 25px;
     margin: 5px;
 }
 
-.button:active {
+button:active {
     margin: 15px;
     padding: 5px 15px;
 }
 
-.button {
+button {
     /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#bfd255+0,8eb92a+50,72aa00+51,9ecb2d+100;Green+Gloss */
     background: linear-gradient(to bottom,  #bfd255 0%,#8eb92a 50%,#72aa00 51%,#9ecb2d 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 
@@ -89,6 +91,19 @@ body {
     background-color: #042000;
 }
 
+nav {
+  padding: 5px;
+  /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#627d4d+0,1f3b08+100;Olive+3D */
+  background: linear-gradient(to bottom,  #627d4d 0%,#1f3b08 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+
+  color: white;
+  text-align: center;
+}
+
+a > nav {
+    text-decoration: none;
+    color: white;
+}
 
 .container {
     display: grid;
@@ -97,7 +112,11 @@ body {
     background: linear-gradient(to bottom,  #cdeb8e 0%,#a5c956 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     border-radius: 25px;
 
-    padding: 20px;
+    border-color: #1f3b08;
+
+    overflow: hidden;
+
+    padding: 00px;
 
     margin-top: 200px;
     margin: 20px 20px;
