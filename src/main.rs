@@ -24,9 +24,52 @@ use std::sync::RwLock;
 // Unique room id
 use std::collections::HashMap;
 
+// Random number generators
+use rand::prelude::*;
+
+
+
+
 #[derive(Serialize, Deserialize, Debug)]
 struct Room {
+    round: Option<Round>,
     users: Vec<User>,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+struct Round {
+    state: RoundState,
+    question: Question,
+    contestants: Vec<User>,
+    challenger: User,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+enum RoundState {
+    PlayerSelection,
+    Question,
+    ContestantAnswer,
+    PlayerAnswer,
+    ContestantEvaluate,
+    PlayerEvaluate,
+    RoundEnd
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+struct Question {
+    text: String,
+    correct: String,
+    wrong1: String,
+    wrong2: String,
+}
+
+fn test_question() -> Question {
+    Question {
+        text: "Was ergibt diese Rechnung? 1 + 1".to_string(),
+        correct: "2".to_string(),
+        wrong1: "3".to_string(),
+        wrong2: "4".to_string(),
+    }
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -84,12 +127,6 @@ impl<'r> FromRequest<'r> for User {
     }
 }
 
-struct Question {
-    text: String,
-    correct: String,
-    wrong1: String,
-    wrong2: String,
-}
 
 fn room_exists(state: &State<AppState>, room_id: String) -> bool {
     // Check for room id in hash map
@@ -102,6 +139,7 @@ async fn manage_room(state: &State<AppState>, room_id: String) -> EventStream![]
     
     let room = Room {
         users: Vec::new(),
+        round: None,
     };
 
     if !room_exists(state, room_id.clone()) {
@@ -136,7 +174,77 @@ fn check_room(state: &State<AppState>, room_id: String) -> String {
     }
 }
 
+#[get("/room/<room_id>/start-round")]
+fn start_round(state: &State<AppState>, room_id: String) -> String {
 
+    if room_exists(state, room_id.clone()) {
+
+        let rooms = state.rooms.read().unwrap();
+        let room = rooms.get(&room_id).unwrap();
+
+        let mut contestants = room.read().unwrap().users.clone();
+        print!("{:#?}", contestants);
+        let random_index = rand::random_range(0..contestants.len());
+        let challenger = contestants.swap_remove(random_index);
+
+        
+
+        // Create a new round
+        let mut round = Round {
+            // Start with PlayerSelection
+            state: RoundState::PlayerSelection,
+            question: test_question(),
+            contestants: contestants,
+            challenger: challenger.clone(),
+        };
+
+        room.write().unwrap().round = Some(round);
+
+        // Send event
+        let _ = state.tx.send(AppEvent {
+            room_id: room_id.clone(),
+            kind: EventKind::PlayerSelection { user: challenger.clone() },
+        });
+
+        "ok".to_string()
+    } else {
+        "error".to_string()
+    }
+}
+
+#[get("/room/<room_id>/question")]
+fn question(state: &State<AppState>, room_id: String) -> String {
+    if room_exists(state, room_id.clone()) {
+
+        let rooms = state.rooms.read().unwrap();
+        let room = rooms.get(&room_id).unwrap();
+
+        match room.read().unwrap().round.clone() {
+            Some(round) => {
+                match round.state {
+                    RoundState::PlayerSelection => {
+
+                        // Select question
+                        room.write().unwrap().round.unwrap().state = RoundState::Question;
+
+                        // Send event
+                        let _ = state.tx.send(AppEvent {
+                            room_id: room_id.clone(),
+                            kind: EventKind::Question { question: round.question.clone() },
+                        });
+                    },
+                    _ => return "error, wrong state".to_string(),
+                }
+                
+                "ok".to_string()
+            },
+            None => "error, no round".to_string(),
+        }
+        
+    } else {
+        "error".to_string()
+    }
+}
 
 #[get("/room/<room_id>/player")]
 fn join_room(state: &State<AppState>, user: User, room_id: String) -> EventStream![] {
@@ -210,6 +318,8 @@ enum EventKind {
     UserJoined { user: User },
     UserUpdated { user: User },
     UserLeft { user: User },
+    PlayerSelection { user: User },
+    Question { question: Question },
 }
 
 struct AppState {
@@ -223,7 +333,7 @@ fn rocket() -> _ {
     let (tx, _rx) = broadcast::channel(1024);
 
     rocket::build()
-        .mount("/api", routes![manage_room, join_room, check_room, update_player_name])
+        .mount("/api", routes![manage_room, join_room, check_room, update_player_name, start_round, question])
         .mount("/", FileServer::from(relative!("html")))
         .manage(AppState {
             tx,

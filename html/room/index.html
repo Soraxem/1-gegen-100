@@ -13,12 +13,24 @@
 
 <div class="container">
 
+
     <h1 id="room">Room</h1>
 
-<ul id="users" style="display: grid; grid-template-columns: repeat(3, 1fr);">
-    
-</ul>
+    <ul id="users" style="display: grid; grid-template-columns: repeat(3, 1fr);">
 
+    <button onclick="start_round()">Start Round</button>
+    
+    </ul>
+
+</div>
+
+<div class="container">
+    <h1>Player Selection</h1>
+    <button onclick="question()">Question</button>
+</div>
+
+<div class="container">
+    <h1>Question</h1>
 
 </div>
 
@@ -37,6 +49,14 @@
     const room = urlParams.get('room');
 
     document.getElementById("room").textContent = "Room: " + room;
+
+    function start_round() {
+        fetch("/api/room/" + room + "/start-round");
+    }
+
+    function question() {
+        fetch("/api/room/" + room + "/question");
+    }
 
 
     function handleMessage(event) {
@@ -66,6 +86,10 @@
                 document.getElementById(data.UserUpdated.user.id).textContent = data.UserUpdated.user.name;
                 break;
 
+            case "PlayerSelection":
+                console.log("Player selection: " + data.PlayerSelection.user.name);
+                break;
+
             default:
                 console.log("Unknown event kind: " + event.kind);
                 break;
@@ -75,17 +99,10 @@
 
 
     let es;
-    let reconnectTimeout = 1000
 
     // Start streaming events
     function connect() {
         es = new EventSource("/api/room/" + room + "/manager");
-        es.addEventListener("error", (event) => {
-            if (event.type === "error") {
-                console.log("Connection dropped. Reconnecting... ");
-                setTimeout(connect, reconnectTimeout);
-            }
-        });
         es.addEventListener("message", handleMessage);
     }
 

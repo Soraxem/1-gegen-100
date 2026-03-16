@@ -51,16 +51,9 @@
     document.getElementById("room").textContent = "Room: " + room;
 
     let es;
-    let reconnectTimeout = 1000;
 
     function connect() {
         es = new EventSource("/api/room/" + room + "/player");
-        es.addEventListener("error", (event) => {
-            if (event.type === "error") {
-                console.log("Connection dropped. Reconnecting... ");
-                setTimeout(connect, reconnectTimeout);
-            }
-        });
         es.addEventListener("message", (event) => {
             const data = JSON.parse(event.data);
             console.log(data);
