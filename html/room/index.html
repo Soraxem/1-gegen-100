@@ -1,37 +1,27 @@
-
-
-
-
 <html>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet" href="/lib/style.css">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/lib/style.css">
+</head>
 
 
 
-
-
-<div class="container">
-
-
+<div id="screen-room" class="screen">
     <h1 id="room">Room</h1>
-
-    <ul id="users" style="display: grid; grid-template-columns: repeat(3, 1fr);">
-
-    <button onclick="start_round()">Start Round</button>
-    
-    </ul>
-
+    <button class="button" onclick="start_round()">Start Round</button>
 </div>
 
-<div class="container">
+<div id="screen-player-selection" class="screen">
     <h1>Player Selection</h1>
-    <button onclick="question()">Question</button>
+    <button class="button" onclick="question()">Question</button>
 </div>
 
-<div class="container">
+<div id="screen-question" class="screen">
     <h1>Question</h1>
-
 </div>
 
 

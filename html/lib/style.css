@@ -4,12 +4,13 @@
 
   /*COLORS*/
   --color-bg: linear-gradient(45deg, #DE462F 0%, #FE9A56 100%);
+  --color-lighter: #fff;
   --color-light: #f5f5f5;
-  --color-light-h: #f5f5f5dd;
   --color-orange-l: #FE9A56;
   --color-orange-d: #DE462F;
   --color-dark: #333;
-
+  --color-darker: #242424;
+  
   background: var(--color-bg);
   
   /*FONTST*/
@@ -48,6 +49,7 @@ h1 {
   font-size: var(--text-xl);
   font-weight: var(--weight-bold);
   color: var(--color-light);
+  margin: 0px;
 }
 
 #hero {
@@ -75,7 +77,22 @@ h1 {
   height: fit-content;
 
   background: var(--color-light);
+}
 
+.screen {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  gap: 8px;
+  
+  padding: 8px;
+  border-radius: 32px;
+  width: fit-content;
+  height: fit-content;
+
+  background: var(--color-darker);
 }
 
 .input {
@@ -99,19 +116,23 @@ h1 {
   height: 64px;
   border-radius: 24px;
   border: none;
+  background-color: var(--color-light);
 
   text-transform: uppercase;
   font-size: var(--text-md);
   font-weight: var(--weight-regular);
 
   transition: 0.5s;
+  cursor: pointer;
+}
 
+.button:hover {
+  background-color: var(--color-lighter);
 }
 
 .primary {
   color: var(--color-light);
-  background: var(--color-bg);
-  border: none;
+  background: var(--color-dark);
 
   display: flex;
   justify-content: center;
@@ -121,7 +142,29 @@ h1 {
   transition: all 0.5s ease;
 }
 
+.primary:hover{
+  background: var(--color-darker);
+  transition-duration: 0.2s;
+}
+
 .secondary {
   color: var(--color-light);
-  background: none
+  background: none;
+  transition: all 0.5s ease;
+  border: solid 1px transparent;
+}
+
+.secondary:hover {
+  border-color: var(--color-light);
+  transition-duration: 0.2s;
+  background: none;
+}
+
+.spark {
+  position: absolute;
+  width: 30px;
+  height: 8px;
+  border-radius: 3px;
+  background-color: #D8E2DC;
+  transform: none;
 }
