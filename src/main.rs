@@ -246,6 +246,21 @@ fn question(state: &State<AppState>, room_id: String) -> String {
     }
 }
 
+#[get("/room/<room_id>/evaluate-contestants")]
+fn evaluate_contestants(state: &State<AppState>, room_id: String) -> String {
+
+}
+
+#[get("/room/<room_id>/evaluate-player")]
+fn evaluate_player(state: &State<AppState>, room_id: String) -> String {
+
+}
+
+#[get("/room/<room_id>/end-round")]
+fn end_round(state: &State<AppState>, room_id: String) -> String {
+    "ok".to_string()
+}
+
 #[get("/room/<room_id>/player")]
 fn join_room(state: &State<AppState>, user: User, room_id: String) -> EventStream![] {
     
@@ -322,8 +337,79 @@ enum EventKind {
     Question { question: Question },
 }
 
+// Events sent to the room manager
+enum RoomEvent {
+    UserJoined { user: User },
+    UserLeft { user: User },
+    Question {
+        text: String,
+        answers: [EvaluatedAnswer; 3],
+        from: u64,
+        to: u64,
+    },
+    EvaluateContestants {
+        evaluations: Vec<EvaluatedUser>,
+    },
+    EvaluatePlayer {
+        text: String,
+        answers: [EvaluatedAnswer; 3],
+    },
+    EndRound,
+}
+
+// Visually marked Answer on the screen
+struct EvaluatedAnswer {
+    answer: String,
+    evaluation: AnswerSelection,
+}
+
+// Answer marking options
+enum AnswerSelection {
+    Correct,
+    Wrong,
+    Neutral,
+    WrongSelection,
+}
+
+// Visually marked user for all to see
+struct EvaluatedUser {
+    user: User,
+    evaluation: Evaluation,
+}
+
+// User marking options
+enum Evaluation {
+    Correct,
+    Wrong,
+    Out,
+}
+
+// Events sent to the player
+enum PlayerEvent {
+    Question {
+        from: u64,
+        to: u64,
+    },
+    Screen {
+        screen: PlayerScreens
+    }
+}
+
+// All Screens that can be triggered
+enum PlayerScreens {
+    In,
+    Out,
+    YouGotSelected,
+    ToSlow,
+    Wrong,
+    Empty,
+    Loading,
+}
+
 struct AppState {
     tx: broadcast::Sender<AppEvent>,
+    player_events: broadcast::Sender<PlayerEvent>,
+    room_events: broadcast::Sender<RoomEvent>,
     rooms: RwLock<HashMap<String, RwLock<Room>>>,
 }
 
@@ -331,6 +417,8 @@ struct AppState {
 fn rocket() -> _ {
 
     let (tx, _rx) = broadcast::channel(1024);
+    let (player_tx, _player_rx) = broadcast::channel(1024);
+    let (room_tx, _room_rx) = broadcast::channel(1024);
 
     rocket::build()
         .mount("/api", routes![manage_room, join_room, check_room, update_player_name, start_round, question])

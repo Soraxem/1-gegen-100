@@ -1,0 +1,26 @@
+[
+    {
+        "text": "Was ergibt diese Rechnung? 1 + 1",
+        "correct": "2",
+        "wrong1": "3",
+        "wrong2": "4"
+    },
+    {
+        "text": "Was ergibt diese Rechnung? 2 + 2",
+        "correct": "4",
+        "wrong1": "3",
+        "wrong2": "5"
+    },
+    {
+        "text": "Was ergibt diese Rechnung? 3 + 3",
+        "correct": "6",
+        "wrong1": "5",
+        "wrong2": "7"
+    },
+    {
+        "text": "Was ergibt diese Rechnung? 4 + 4",
+        "correct": "8",
+        "wrong1": "7",
+        "wrong2": "9"
+    }
+]
