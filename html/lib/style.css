@@ -1,147 +1,112 @@
+/*BASE*/
 
-@font-face {
-    font-family: Noto Sans;
-    src: url('/lib/noto-sans.ttf');
+:root {
+
+  /*COLORS*/
+  --color-bg: linear-gradient(45deg, #DE462F 0%, #FE9A56 100%);
+  --color-light: #f5f5f5;
+  --color-light-h: #f5f5f5dd;
+  --color-orange-l: #FE9A56;
+  --color-orange-d: #DE462F;
+  --color-dark: #333;
+
+  background: var(--color-bg);
+  
+  /*FONTST*/
+
+  --font-primary: 'Rethink Sans', sans-serif;
+
+  /* Font sizes */
+  --text-sm: 14px;
+  --text-md: 16px;
+  --text-lg: 32px;
+  --text-xl: 50px;
+
+  /* Font weights */
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-bold: 700;
 }
 
-* {
-    font-family: Noto Sans;
-}
-
-h1 {
-    text-align: center;
-    font-weight: 800;
-}
-
-h1 {
-    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#bfd255+0,8eb92a+50,72aa00+51,9ecb2d+100;Green+Gloss */
-    background: linear-gradient(to bottom,  #bfd255 0%,#8eb92a 50%,#72aa00 51%,#9ecb2d 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-
-    color: white;
-
-    border-width: 1px;
-    border-style: solid;
-    border-bottom-color: #1d7c00;
-    border-left-color: #bfeeb1;
-    border-right-color: #66a752;
-    border-top-color: #bfeeb1;
-
-    padding: 10px;
-    margin: 10px;
-}
-
-
-
-.container > * {
-  grid-column: span 12;
-}
-
-button,
-.textfield {
-    padding: 10px 20px;
-    margin: 10px ;
-
-    font-size: medium;
-
-    box-sizing: border-box;
-
-    border-width: 1px;
-    border-style: solid;
-    border-color: #1d7c00;
-    border-radius: 5px;
-}
-
-button:hover,
-input[type="text"]:hover {
-    padding: 15px 25px;
-    margin: 5px;
-}
-
-button:active {
-    margin: 15px;
-    padding: 5px 15px;
-}
-
-button {
-    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#bfd255+0,8eb92a+50,72aa00+51,9ecb2d+100;Green+Gloss */
-    background: linear-gradient(to bottom,  #bfd255 0%,#8eb92a 50%,#72aa00 51%,#9ecb2d 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-
-    font-weight: bold;
-    
-    cursor: pointer;
-    
-    border-radius: 5px;
-    color: white;
-    text-decoration: none;
-    text-align: center;
-}
-
-form {
-    display: flex;
-    width: 100%;
-}
-
-.textfield {
-    min-width: 10px;
-    flex-grow: 1;
-}
-
-
+/*FONTS*/
 body {
-    background-color: #042000;
+  font-family: var(--font-primary);
 }
 
-nav {
-  padding: 5px;
-  /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#627d4d+0,1f3b08+100;Olive+3D */
-  background: linear-gradient(to bottom,  #627d4d 0%,#1f3b08 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-
-  color: white;
+h1 {
   text-align: center;
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+  color: var(--color-light);
 }
 
-a > nav {
-    text-decoration: none;
-    color: white;
-}
+/*ELEMENTS*/
 
 .container {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#cdeb8e+0,a5c956+100;Green+3D+%232 */
-    background: linear-gradient(to bottom,  #cdeb8e 0%,#a5c956 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    border-radius: 25px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: stretch;
+  gap: 16px;
+  
+  padding: 24px;
+  border-radius: 24px;
+  width: 320px;
+  height: 60vh;
+  
+  justify-self: center;
 
-    border-color: #1f3b08;
-
-    overflow: hidden;
-
-    padding: 00px;
-
-    margin-top: 200px;
-    margin: 20px 20px;
 }
 
-@media (min-width: 576px) {
-  .container {
-    margin: 50px 150px;
-  }
+.input {
+  padding: 16px;
+  border-radius: 12px;
+  border: none;
+  height: 48px;
+  min-width: 160px;
+
+  font-size: var(--text-md);
 }
 
-@media (min-width: 756px) {
-  .container {
-    margin: 100px 220px;
-  }
+.button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: stretch;
+
+  padding: 16px;
+  height: 48px;
+  border-radius: 12px;
+  border: none;
+
+  text-transform: uppercase;
+  font-size: var(--text-md);
+
+  transition: ease-out 0.15s;
+
 }
 
-@media (min-width: 992px) {
-  .container {
-    margin: 100px 300px;
-  }
+.primary {
+  color: var(--color-orange-d);
+  background: var(--color-light);
+  border: none;
+  font-weight: 800;
+  font-display: block;
 }
 
-@media (min-width: 1200px) {
-  .container {
-    margin: 100px 400px;
-  }
+.primary:hover {
+  background: var(--color-light-h);
+}
+
+.secondary {
+  color: var(--color-light);
+  border: solid 2px;
+  border-color: var(--color-light);
+  background: none
+}
+
+.secondary:hover {
+  color: var(--color-light-h);
+  border-color: var(--color-light-h);
 }
