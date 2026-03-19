@@ -205,6 +205,12 @@ h2 {
 
 /*SCREENS*/
 
+#loading {
+  color: var(--color-light);
+  justify-content: center;
+  align-items: center;
+}
+
 #screen-login {
   display: flex;
   flex-direction: column;
