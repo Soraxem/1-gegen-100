@@ -1,30 +1,39 @@
 <html>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<head>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/lib/style.css">
-</head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <head>
+        <title>1 Gegen 100 - Room</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/lib/style.css">
+    </head>
 
-
-<div id="screen-room" class="screen">
-    <h1 id="room">Room</h1>
-    <button class="button" onclick="start_round()">Start Round</button>
-</div>
-
-<div id="screen-player-selection" class="screen">
-    <h1>Player Selection</h1>
-    <button class="button" onclick="question()">Question</button>
-</div>
-
-<div id="screen-question" class="screen">
-    <h1>Question</h1>
-</div>
-
-
+    <body>
+        
+        <div id="screen-room" class="screen">
+            <h1 id="room">Room</h1>
+            <button class="button" onclick="start_round()">Start Round</button>
+        </div>
+        
+        <div id="screen-player-selection" class="screen">
+            <h1>Player Selection</h1>
+            <button class="button" onclick="question()">Question</button>
+        </div>
+        
+        <div id="screen-question" class="screen">
+            <h2>Frage</h2>
+            <p id="question" >Wo wurde Jesus geboren?</p>
+            <div class="answer-options">
+                <p class="answer">Nazareth</p>
+                <p class="answer">Bethlehem</p>
+                <p class="answer">Jerusalem</p>
+                <script src="/lib/answer.js"></script>
+            </div>
+        </div>
+        
+    </body>
 
 </html>
 

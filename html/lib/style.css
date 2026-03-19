@@ -12,6 +12,7 @@
   --color-darker: #242424;
   
   background: var(--color-bg);
+  outline: none;
   
   /*FONTST*/
 
@@ -31,18 +32,26 @@
 }
 
 body {
-  height: 100vh;
+  /*height: 100vh;*/
   width: 100vw;
+
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
+  gap: 80px;
+  
   font-family: var(--font-primary);
 }
   
 
-
 /*FONTS*/
+
+#hero {
+  font-size: 80px;
+  font-weight: var(--weight-bold);
+  text-transform: uppercase;
+}
 
 h1 {
   text-align: center;
@@ -52,19 +61,36 @@ h1 {
   margin: 0px;
 }
 
-#hero {
-  font-size: 80px;
+#question {
+  text-align: center;
+  font-size: var(--text-xl);
+  font-weight: var(--weight-light);
+  color: var(--color-light);
+  margin-top: 0px;
+  margin-bottom: 40px;
+}
+
+h2 {
+  text-align: center;
+  font-size: var(--text-lg);
   font-weight: var(--weight-bold);
-  text-transform: uppercase;
+  margin: none;
+}
+
+.antwort {
+  color: var(--color-dark);
+  background-color: var(--color-light);
 }
 
 
 
 /*ELEMENTS*/
 
+.visibility {
+  display: hidden;
+}
 
-.container {
-  position: relative;
+.enter-code {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -73,7 +99,7 @@ h1 {
   
   padding: 8px;
   border-radius: 32px;
-  width: 320px;
+  width: 240px;
   height: fit-content;
 
   background: var(--color-light);
@@ -84,15 +110,22 @@ h1 {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: stretch;
+  align-items: center;
   gap: 8px;
   
   padding: 8px;
   border-radius: 32px;
-  width: fit-content;
-  height: fit-content;
+  width: 80vw;
+  height: 80vh;
 
   background: var(--color-darker);
+
+  @media (max-width: 600px) {
+  height: 100vh;
+  width: 100vw;
+  border-radius: 0px;
+  padding-bottom: 120px;
+  }
 }
 
 .input {
@@ -114,6 +147,7 @@ h1 {
 
   padding: 16px;
   height: 64px;
+  width: 240px;
   border-radius: 24px;
   border: none;
   background-color: var(--color-light);
@@ -126,45 +160,108 @@ h1 {
   cursor: pointer;
 }
 
-.button:hover {
-  background-color: var(--color-lighter);
-}
+  .button:hover {
+    background-color: var(--color-lighter);
+  }
 
-.primary {
-  color: var(--color-light);
-  background: var(--color-dark);
+  .primary {
+    color: var(--color-light);
+    background: var(--color-dark);
 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.5s ease;
+  }
+
+  .primary:hover{
+    background: var(--color-darker);
+    transition-duration: 0.2s;
+  }
+
+  .secondary {
+    color: var(--color-light);
+    background: none;
+    transition: all 0.5s ease;
+    border: solid 1px transparent;
+  }
+
+  .secondary:hover {
+    border-color: var(--color-light);
+    transition-duration: 0.2s;
+    background: none;
+  }
+
+  .spark {
+    position: absolute;
+    width: 30px;
+    height: 8px;
+    border-radius: 3px;
+    background-color: #D8E2DC;
+    transform: none;
+  }
+
+
+
+/*SCREENS*/
+
+#screen-login {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 1em;
+  gap: 80px;
 
-  transition: all 0.5s ease;
+  height: 100vh;
+  width: 100vw;
 }
 
-.primary:hover{
-  background: var(--color-darker);
-  transition-duration: 0.2s;
-}
-
-.secondary {
+#screen-question {
   color: var(--color-light);
-  background: none;
-  transition: all 0.5s ease;
-  border: solid 1px transparent;
+  justify-content: space-between;
+  align-items: stretch;
 }
 
-.secondary:hover {
-  border-color: var(--color-light);
-  transition-duration: 0.2s;
-  background: none;
+.answer-options {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  
+  color: var(--color-light);
 }
 
-.spark {
-  position: absolute;
-  width: 30px;
-  height: 8px;
-  border-radius: 3px;
-  background-color: #D8E2DC;
-  transform: none;
+.answer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+  font-size: var(--text-lg);
+  color: var(--color-dark);
+  background: var(--color-light);
+  border: solid 2px var(--color-light);
+  cursor: pointer;
+  
+  border-radius: 24px;
+  height: 120px;
+  margin: 0px;
+  margin-top: 8px;
+}
+
+.answer.active {
+  background: var(--color-bg);
+  color: var(--color-light);
+}
+
+.correct {
+  background: green;
+  color: var(--color-light);
+
+}
+
+.false {
+  background-color: red;
+  color: var(--color-light);
+
 }
