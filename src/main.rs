@@ -1,5 +1,8 @@
 #[macro_use] extern crate rocket;
+
+// Static files for App
 use rocket::fs::{relative, FileServer};
+
 
 use rocket::request::Outcome;
 use rocket::http::Status;
@@ -10,7 +13,9 @@ use rocket::http::CookieJar;
 use rocket::http::SameSite;
 
 use rocket::fairing::AdHoc;
+
 use rocket::response::stream::{EventStream, Event};
+
 use rocket::serde::json::Json;
 use rocket::tokio::select;
 use rocket::tokio::sync::broadcast;
@@ -28,47 +33,59 @@ use std::collections::HashMap;
 use rand::prelude::*;
 
 
-
-
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 struct Room {
-    round: Option<Round>,
+    state: RoomState,
+    // Current question
+    question: Option<Question>,
+    // All players that still ar in the game
+    contestants: Vec<User>,
+    // The player everyone is playing against
+    player: User,
+    // Everyone in the room
     users: Vec<User>,
 }
 
+// Statemachine of the room. Flowchart is in the readme
 #[derive(Serialize, Deserialize, Debug, Clone)]
-struct Round {
-    state: RoundState,
-    question: Question,
-    contestants: Vec<User>,
-    challenger: User,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-enum RoundState {
+enum RoomState {
+    // Joining an Leaving of Players
+    Open,
+    // Select the challenger
     PlayerSelection,
+    // Show the Question & and wait for everyone to answer
     Question,
-    ContestantAnswer,
-    PlayerAnswer,
-    ContestantEvaluate,
-    PlayerEvaluate,
+    // Evaluate the contestants
+    EvaluateContestants,
+    // Evaluate the player
+    EvaluatePlayer,
+    // Round is over
     RoundEnd
 }
 
+
+// Question wich is read from json
 #[derive(Serialize, Deserialize, Debug, Clone)]
-struct Question {
+struct JsonQuestion {
     text: String,
     correct: String,
     wrong1: String,
     wrong2: String,
 }
 
+// Question struct for the server
+#[derive(Serialize, Deserialize, Debug, Clone)]
+struct Question {
+    text: String,
+    answers: [String; 3],
+    correct: usize,
+}
+
 fn test_question() -> Question {
     Question {
         text: "Was ergibt diese Rechnung? 1 + 1".to_string(),
-        correct: "2".to_string(),
-        wrong1: "3".to_string(),
-        wrong2: "4".to_string(),
+        answers: ["2".to_string(), "3".to_string(), "4".to_string()],
+        correct: 0
     }
 }
 
@@ -214,46 +231,17 @@ fn start_round(state: &State<AppState>, room_id: String) -> String {
 
 #[get("/room/<room_id>/question")]
 fn question(state: &State<AppState>, room_id: String) -> String {
-    if room_exists(state, room_id.clone()) {
-
-        let rooms = state.rooms.read().unwrap();
-        let room = rooms.get(&room_id).unwrap();
-
-        match room.read().unwrap().round.clone() {
-            Some(round) => {
-                match round.state {
-                    RoundState::PlayerSelection => {
-
-                        // Select question
-                        room.write().unwrap().round.unwrap().state = RoundState::Question;
-
-                        // Send event
-                        let _ = state.tx.send(AppEvent {
-                            room_id: room_id.clone(),
-                            kind: EventKind::Question { question: round.question.clone() },
-                        });
-                    },
-                    _ => return "error, wrong state".to_string(),
-                }
-                
-                "ok".to_string()
-            },
-            None => "error, no round".to_string(),
-        }
-        
-    } else {
-        "error".to_string()
-    }
+    "error".to_string()
 }
 
 #[get("/room/<room_id>/evaluate-contestants")]
 fn evaluate_contestants(state: &State<AppState>, room_id: String) -> String {
-
+"ok".to_string()
 }
 
 #[get("/room/<room_id>/evaluate-player")]
 fn evaluate_player(state: &State<AppState>, room_id: String) -> String {
-
+"ok".to_string()
 }
 
 #[get("/room/<room_id>/end-round")]
@@ -338,12 +326,13 @@ enum EventKind {
 }
 
 // Events sent to the room manager
+#[derive(Serialize, Deserialize, Clone, Debug)]
 enum RoomEvent {
     UserJoined { user: User },
     UserLeft { user: User },
     Question {
         text: String,
-        answers: [EvaluatedAnswer; 3],
+        answers: [String; 3],
         from: u64,
         to: u64,
     },
@@ -358,12 +347,14 @@ enum RoomEvent {
 }
 
 // Visually marked Answer on the screen
+#[derive(Serialize, Deserialize, Clone, Debug)]
 struct EvaluatedAnswer {
     answer: String,
     evaluation: AnswerSelection,
 }
 
 // Answer marking options
+#[derive(Serialize, Deserialize, Clone, Debug)]
 enum AnswerSelection {
     Correct,
     Wrong,
@@ -372,12 +363,14 @@ enum AnswerSelection {
 }
 
 // Visually marked user for all to see
+#[derive(Serialize, Deserialize, Clone, Debug)]
 struct EvaluatedUser {
     user: User,
     evaluation: Evaluation,
 }
 
 // User marking options
+#[derive(Serialize, Deserialize, Clone, Debug)]
 enum Evaluation {
     Correct,
     Wrong,
@@ -385,6 +378,7 @@ enum Evaluation {
 }
 
 // Events sent to the player
+#[derive(Serialize, Deserialize, Clone, Debug)]
 enum PlayerEvent {
     Question {
         from: u64,
@@ -396,6 +390,7 @@ enum PlayerEvent {
 }
 
 // All Screens that can be triggered
+#[derive(Serialize, Deserialize, Clone, Debug)]
 enum PlayerScreens {
     In,
     Out,
@@ -425,6 +420,8 @@ fn rocket() -> _ {
         .mount("/", FileServer::from(relative!("html")))
         .manage(AppState {
             tx,
+            player_events: player_tx,
+            room_events: room_tx,
             rooms: RwLock::new(HashMap::new()),
         })
 }
