@@ -32,57 +32,86 @@ use std::collections::HashMap;
 // Random number generators
 use rand::prelude::*;
 
+// time fetching
+use std::time::SystemTime;
+
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 struct Room {
     state: RoomState,
     // Current question
     question: Option<Question>,
-    // All players that still ar in the game
+    // Submitted answers
+    answers: HashMap<String, i32>,
+    // All players that still are in the current round
     contestants: Vec<User>,
-    // The player everyone is playing against
-    player: User,
+    // The player everyone is competing against
+    player: Option<User>,
     // Everyone in the room
     users: Vec<User>,
 }
 
-// Statemachine of the room. Flowchart is in the readme
-#[derive(Serialize, Deserialize, Debug, Clone)]
+// Default values for room on creation
+impl Default for Room {
+    fn default() -> Self {
+        Room {
+            state: RoomState::Open,
+            question: None,
+            answers: HashMap::new(),
+            contestants: Vec::new(),
+            player:None,
+            users: Vec::new(),
+        }
+    }
+}
+
+/// Statemachine of the room. Flowchart is in the readme
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
 enum RoomState {
-    // Joining an Leaving of Players
+    /// Joining and Leaving of Players
     Open,
-    // Select the challenger
+    /// Select the challenger
     PlayerSelection,
-    // Show the Question & and wait for everyone to answer
+    /// Show the Question & and wait for everyone to answer
     Question,
-    // Evaluate the contestants
+    /// Evaluate the contestants
     EvaluateContestants,
-    // Evaluate the player
+    /// Evaluate the player
     EvaluatePlayer,
-    // Round is over
+    /// Round is over
     RoundEnd
 }
 
 
-// Question wich is read from json
+/// Question wich is read from json
 #[derive(Serialize, Deserialize, Debug, Clone)]
 struct JsonQuestion {
+    /// The question
     text: String,
-    correct: String,
-    wrong1: String,
-    wrong2: String,
+    /// All possible answers
+    answers: [String; 3],
+    /// Index of the correct answer, using a 1 based index!!
+    correct: i32,
 }
 
-// Question struct for the server
+/// Question struct for the server
 #[derive(Serialize, Deserialize, Debug, Clone)]
 struct Question {
+    /// The question
     text: String,
+    /// All possible answers
     answers: [String; 3],
-    correct: usize,
+    /// Index of the correct answer, using a 1 based index!!
+    correct: i32,
+
+    start_time: u64,
+    end_time: u64,
+    player_start_time: u64,
+    player_end_time: u64,
 }
 
-fn test_question() -> Question {
-    Question {
+fn test_question() -> JsonQuestion {
+    JsonQuestion {
         text: "Was ergibt diese Rechnung? 1 + 1".to_string(),
         answers: ["2".to_string(), "3".to_string(), "4".to_string()],
         correct: 0
@@ -145,35 +174,30 @@ impl<'r> FromRequest<'r> for User {
 }
 
 
-fn room_exists(state: &State<AppState>, room_id: String) -> bool {
-    // Check for room id in hash map
-    state.rooms.read().unwrap().contains_key(&room_id)
-}
 
 
 #[get("/room/<room_id>/manager")]
 async fn manage_room(state: &State<AppState>, room_id: String) -> EventStream![] {
     
-    let room = Room {
-        users: Vec::new(),
-        round: None,
-    };
+    let room = Room::default();
 
-    if !room_exists(state, room_id.clone()) {
+    if !room_exists(state, &room_id) {
         state.rooms.write().unwrap().insert(room_id.to_string(), RwLock::new(room));
     }
 
     let mut rx = state.tx.subscribe();
+    let mut room_events = state.room_events.subscribe();
     EventStream! {
 
         loop {
-            let event = match rx.recv().await {
+
+            let room_event = match room_events.recv().await {
                 Ok(event) => event,
                 Err(_) => break,
             };
 
-            if event.room_id == room_id {
-                yield Event::json(&event.kind);
+            if room_event.room_id == room_id {
+                yield Event::json(&room_event.kind);
             }
             
         }
@@ -184,64 +208,315 @@ async fn manage_room(state: &State<AppState>, room_id: String) -> EventStream![]
 #[get("/room/<room_id>/exists")]
 fn check_room(state: &State<AppState>, room_id: String) -> String {
 
-    if room_exists(state, room_id) {
+    if room_exists(state, &room_id) {
         "true".to_string()
     } else {
         "false".to_string()
     }
 }
 
-#[get("/room/<room_id>/start-round")]
-fn start_round(state: &State<AppState>, room_id: String) -> String {
+// Check if a room exists
+fn room_exists(state: &State<AppState>, room_id: &str) -> bool {
+    // Check for room id in hash map
+    state.rooms.read().unwrap().contains_key(room_id)
+}
 
-    if room_exists(state, room_id.clone()) {
+// Overwrite a room in the hash map
+fn overwrite_room(state: &State<AppState>, room_id: String, room: Room) {
+    let mut rooms = state.rooms.write().unwrap();
+    rooms.insert(room_id, RwLock::new(room));
+}
 
-        let rooms = state.rooms.read().unwrap();
-        let room = rooms.get(&room_id).unwrap();
+// Remove a room from the hash map
+fn delete_room(state: &State<AppState>, room_id: &str) -> Option<Room> {
+    let mut rooms = state.rooms.write().unwrap();
+    rooms.remove(room_id).map(|lock| lock.into_inner().unwrap())
+}
 
-        let mut contestants = room.read().unwrap().users.clone();
-        print!("{:#?}", contestants);
-        let random_index = rand::random_range(0..contestants.len());
-        let challenger = contestants.swap_remove(random_index);
-
-        
-
-        // Create a new round
-        let mut round = Round {
-            // Start with PlayerSelection
-            state: RoundState::PlayerSelection,
-            question: test_question(),
-            contestants: contestants,
-            challenger: challenger.clone(),
-        };
-
-        room.write().unwrap().round = Some(round);
-
-        // Send event
-        let _ = state.tx.send(AppEvent {
-            room_id: room_id.clone(),
-            kind: EventKind::PlayerSelection { user: challenger.clone() },
-        });
-
-        "ok".to_string()
+// Update fields of a room
+// Example: update_room(&state, "room_1", |room| room.player_count += 1);
+fn update_room_field<F>(state: &State<AppState>, room_id: &str, f: F) -> bool 
+where F: FnOnce(&mut Room) 
+{
+    let rooms = state.rooms.read().unwrap();
+    if let Some(room_lock) = rooms.get(room_id) {
+        let mut room = room_lock.write().unwrap();
+        f(&mut room);
+        true
     } else {
-        "error".to_string()
+        false
     }
 }
 
+// Read a room field
+// Example: let is_full = read_room_field(state, "room_1", |r| r.players.len() >= r.max_capacity);
+fn read_room_field<F, T>(state: &State<AppState>, room_id: &str, f: F) -> Option<T>
+where
+    F: FnOnce(&Room) -> T,
+{
+    let rooms = state.rooms.read().unwrap();
+    rooms.get(room_id).map(|room_lock| {
+        let room = room_lock.read().unwrap();
+        f(&room)
+    })
+}
+
+
+
+#[get("/room/<room_id>/start-round")]
+fn start_round(state: &State<AppState>, room_id: String) -> String {
+
+    match read_room_field(state, &room_id, |r| r.users.clone()) {
+        Some(mut contestants) => {
+            if contestants.is_empty() {
+                return "not_enough_players".to_string();
+            }
+
+            // ToDo make selection pseudo random, so that everybody gets a turn
+            let random_index = rand::random_range(0..contestants.len());
+            let player = contestants.swap_remove(random_index);
+
+            // Save the Selected Player
+            update_room_field(state, &room_id, |r| r.player = Some(player.clone()));
+            // Save the remaning contestants
+            update_room_field(state, &room_id, |r| r.contestants = contestants);
+            // Change the room state
+            update_room_field(state, &room_id, |r| r.state = RoomState::PlayerSelection);
+
+            // Display the selected Player upfront
+            let _ = state.room_events.send(RoomEvent {
+                room_id: room_id.clone(),
+                kind: RoomEventKind::PlayerSelected { user: player.clone() },
+            });
+
+            // Display the selected Player that they got selected
+            let _ = state.player_events.send(PlayerEvent {
+                player_ids: vec![player.id],
+                kind: PlayerEventKind::Screen { screen: PlayerScreens::YouGotSelected },
+            });
+        },
+        None => return "error".to_string(),
+    }
+    "ok".to_string()
+}
+
+
+
 #[get("/room/<room_id>/question")]
 fn question(state: &State<AppState>, room_id: String) -> String {
-    "error".to_string()
+
+    // Fetch the room state
+    let room_state = match read_room_field(state, &room_id, |r| r.state.clone()) {
+        Some(state) => state,
+        None => return "error".to_string(),
+    };
+    // Check if room state is correct for transition to question
+    if room_state != RoomState::PlayerSelection && room_state != RoomState::EvaluatePlayer {
+        return "error".to_string();
+    }
+
+    // ToDo random Question fetching
+    let question = test_question();
+
+    // Save the question
+    //update_room_field(state, &room_id, |r| r.question = Some(question.clone()));
+    // Change the room state
+    update_room_field(state, &room_id, |r| r.state = RoomState::Question);
+
+    // Calculate start and end time for question response
+    let start_time = SystemTime::now()
+        .duration_since(SystemTime::UNIX_EPOCH)
+        .unwrap()
+        .as_secs() + 10;
+    
+    let end_time = start_time + 10;
+
+    let player_start_time = start_time;
+    let player_end_time = end_time + 40;
+
+    let question = Question {
+        text: question.text,
+        answers: question.answers,
+        correct: question.correct,
+        start_time,
+        end_time,
+        player_start_time,
+        player_end_time
+    };
+
+    // Save the question
+    update_room_field(state, &room_id, |r| r.question = Some(question.clone()));
+    // Clear the hash map for the new question
+    update_room_field(state, &room_id, |r| r.answers = HashMap::new());
+
+    // Display the question
+    let _ = state.room_events.send(RoomEvent {
+        room_id: room_id.clone(),
+        kind: RoomEventKind::Question {
+            text: question.text.clone(),
+            answers: question.answers.clone(),
+            from: start_time,
+            to: end_time
+        },
+    });
+
+    // Fetch the contestants
+    let contestants = match read_room_field(state, &room_id, |r| r.contestants.clone()) {
+        Some(contestants) => contestants,
+        None => return "error".to_string(),
+    };
+
+    // Display the question to the contestants
+    let _ = state.player_events.send(PlayerEvent {
+        player_ids: contestants.iter().map(|c| c.id.clone()).collect(),
+        kind: PlayerEventKind::Question {
+            from: start_time,
+            to: end_time
+        },
+    });
+
+
+    // Fetch the player
+    let player = match read_room_field(state, &room_id, |r| r.player.clone()) {
+        Some(player) => player,
+        None => return "error".to_string(),
+    };
+
+    // Display the question to the player
+    let _ = state.player_events.send(PlayerEvent {
+        player_ids: vec![player.unwrap().id],
+        kind: PlayerEventKind::Question {
+            from: player_start_time,
+            to: player_end_time
+        }
+    });
+
+    "ok".to_string()
+}
+
+#[get("/room/<room_id>/answer-question/<answer>")]
+fn answer_question(state: &State<AppState>, user: User, room_id: String, answer: i32) -> String {
+
+    // Add a "If Player"
+
+    // Fetch the question
+    let question = match read_room_field(state, &room_id, |r| r.question.clone()) {
+        Some(question) => question,
+        None => return "error".to_string(),
+    };
+
+    let current_time = SystemTime::now()
+        .duration_since(SystemTime::UNIX_EPOCH)
+        .unwrap()
+        .as_secs();
+    
+    if current_time > question.clone().unwrap().end_time {
+        return "ended".to_string();
+    }
+    if current_time < question.clone().unwrap().start_time {
+        return "not started".to_string();
+    }
+
+    // Register Answer
+    update_room_field(state, &room_id, |r| { r.answers.insert(user.id, answer); });
+
+    "ok".to_string()
 }
 
 #[get("/room/<room_id>/evaluate-contestants")]
 fn evaluate_contestants(state: &State<AppState>, room_id: String) -> String {
-"ok".to_string()
+    
+    let users = match read_room_field(state, &room_id, |r| r.users.clone()) {
+        Some(users) => users,
+        None => return "error".to_string(),
+    };
+
+    let mut evaluated_players: HashMap<String, Evaluation> = HashMap::new();
+
+    // Mark all users as out
+    for user in users {
+        evaluated_players.insert(user.id, Evaluation::Out);
+    }
+
+    // Remove the player from that list
+    let player = match read_room_field(state, &room_id, |r| r.player.clone()) {
+        Some(player) => player,
+        None => return "error".to_string(),
+    };
+    evaluated_players.remove(&player.unwrap().id);
+
+    // Fetch all the contestants
+    let mut contestants = match read_room_field(state, &room_id, |r| r.contestants.clone()) {
+        Some(contestants) => contestants,
+        None => return "error".to_string(),
+    };
+
+    // Fetch the question
+    let question = match read_room_field(state, &room_id, |r| r.question.clone()) {
+        Some(question) => question,
+        None => return "error".to_string(),
+    };
+
+    // Evaluate the contestants
+    for contestant in contestants.clone() {
+        let answer = match read_room_field(state, &room_id, |r| r.answers.get(&contestant.id).cloned()) {
+            Some(answers) => answers,
+            None => return "error".to_string(),
+        };
+
+        if answer.unwrap() ==  question.clone().unwrap().correct {
+            evaluated_players.insert(contestant.id, Evaluation::Correct);
+        } else {
+            evaluated_players.insert(contestant.id.clone(), Evaluation::Wrong);
+            contestants.retain(|c| c.id != contestant.id);
+        }
+    }
+
+    // Update the contestants
+    update_room_field(state, &room_id, |r| r.contestants = contestants);
+
+    // TODO: Points, and finish wehn no more contestants
+    // Update Room state
+
+    // Evaluation Complete
+
+
+    // Display the results
+    let _ = state.room_events.send(RoomEvent {
+        room_id: room_id.clone(),
+        kind: RoomEventKind::EvaluateContestants {
+            evaluations: evaluated_players.clone()
+        },
+    });
+
+    // Show all Correct signals
+    let _ = state.player_events.send(PlayerEvent {
+        player_ids: evaluated_players.iter().filter_map(|(id, evaluation)| if let Evaluation::Correct = evaluation { Some(id.clone()) } else { None }).collect(),
+        kind: PlayerEventKind::Screen { screen: PlayerScreens::Correct },
+    });
+
+    // Show all Wrong signals
+    let _ = state.player_events.send(PlayerEvent {
+        player_ids: evaluated_players.iter().filter_map(|(id, evaluation)| if let Evaluation::Wrong = evaluation { Some(id.clone()) } else { None }).collect(),
+        kind: PlayerEventKind::Screen { screen: PlayerScreens::Wrong },
+    });
+
+    // Show all Out signals
+    let _ = state.player_events.send(PlayerEvent {
+        player_ids: evaluated_players.iter().filter_map(|(id, evaluation)| if let Evaluation::Out = evaluation { Some(id.clone()) } else { None }).collect(),
+        kind: PlayerEventKind::Screen { screen: PlayerScreens::Out },
+    });
+    
+    "ok".to_string()
 }
 
 #[get("/room/<room_id>/evaluate-player")]
 fn evaluate_player(state: &State<AppState>, room_id: String) -> String {
-"ok".to_string()
+    
+
+    
+
+    "ok".to_string()
 }
 
 #[get("/room/<room_id>/end-round")]
@@ -251,37 +526,33 @@ fn end_round(state: &State<AppState>, room_id: String) -> String {
 
 #[get("/room/<room_id>/player")]
 fn join_room(state: &State<AppState>, user: User, room_id: String) -> EventStream![] {
-    
-    let rooms = state.rooms.read().unwrap();
-    let room = rooms.get(&room_id).unwrap();
 
-    let mut found = false;
-    for u in room.read().unwrap().users.iter() {
-        if u.id == user.id {
-            found = true;
-            break;
-        }
+    let found = read_room_field(state, &room_id, |r| r.users.iter().any(|u| u.id == user.id));
+
+    if !(found == Some(true)) {
+        update_room_field(state, &room_id, |r| r.users.push(user.clone()));
     }
 
-    if !found {
-        room.write().unwrap().users.push(user.clone());
-    }
-
-    let _ = state.tx.send(AppEvent {
+    let _ = state.room_events.send(RoomEvent {
         room_id: room_id.clone(),
-        kind: EventKind::UserJoined { user: user.clone() },
+        kind: RoomEventKind::UserJoined { user: user.clone() },
     });
 
-    let mut rx = state.tx.subscribe();
+    let mut player_events = state.player_events.subscribe();
+
+    // SSE Stream that sends events that select only the right user
     EventStream! {
         loop {
-            let event = match rx.recv().await {
+
+            // Fetch new event
+            let player_event = match player_events.recv().await {
                 Ok(event) => event,
                 Err(_) => break,
             };
 
-            if event.room_id == room_id {
-                yield Event::json(&event.kind);
+            // Only send events that are targeted to this user
+            if player_event.player_ids.contains(&user.id) {
+                yield Event::json(&player_event.kind);
             }
             
         }
@@ -302,9 +573,9 @@ fn update_player_name(room: String, old_user: User, name: String, jar: &CookieJa
 
     jar.add(new_cookie);
 
-    let _ = state.tx.send(AppEvent {
+    let _ = state.room_events.send(RoomEvent {
         room_id: room.clone(),
-        kind: EventKind::UserUpdated { user: user.clone() },
+        kind: RoomEventKind::UserUpdated { user: user.clone() },
     });
 
     "ok".to_string()
@@ -325,11 +596,19 @@ enum EventKind {
     Question { question: Question },
 }
 
+#[derive(Serialize, Deserialize, Clone, Debug)]
+struct RoomEvent {
+    room_id: String,
+    kind: RoomEventKind,
+}
+
 // Events sent to the room manager
 #[derive(Serialize, Deserialize, Clone, Debug)]
-enum RoomEvent {
+enum RoomEventKind {
     UserJoined { user: User },
+    UserUpdated { user: User },
     UserLeft { user: User },
+    PlayerSelected { user: User },
     Question {
         text: String,
         answers: [String; 3],
@@ -337,7 +616,7 @@ enum RoomEvent {
         to: u64,
     },
     EvaluateContestants {
-        evaluations: Vec<EvaluatedUser>,
+        evaluations: HashMap<String, Evaluation>,
     },
     EvaluatePlayer {
         text: String,
@@ -377,9 +656,15 @@ enum Evaluation {
     Out,
 }
 
+#[derive(Serialize, Deserialize, Clone, Debug)]
+struct PlayerEvent {
+    player_ids: Vec<String>,
+    kind: PlayerEventKind,
+}
+
 // Events sent to the player
 #[derive(Serialize, Deserialize, Clone, Debug)]
-enum PlayerEvent {
+enum PlayerEventKind {
     Question {
         from: u64,
         to: u64,
@@ -392,6 +677,7 @@ enum PlayerEvent {
 // All Screens that can be triggered
 #[derive(Serialize, Deserialize, Clone, Debug)]
 enum PlayerScreens {
+    Correct,
     In,
     Out,
     YouGotSelected,
