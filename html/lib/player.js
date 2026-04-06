@@ -87,6 +87,7 @@ async function handleMessage(event) {
                         let currentTime = get_unix_time();
                         if (currentTime >= data.Question.to || !is_screen_visible(Screens.Question)) {
                             clearInterval(questionTimeoutId);
+                            show_screen(Screens.Loading);
                         } else {
                             document.getElementById("question-time").textContent = (data.Question.to - currentTime).toFixed(0);
                         }
