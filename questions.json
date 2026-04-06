@@ -1,0 +1,7 @@
+[
+    {
+        "text":"Was ergibt diese Rechnung? 5+5",
+        "answers": ["10", "11", "12"],
+        "correct": 1
+    }
+]
