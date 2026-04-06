@@ -640,6 +640,15 @@ fn end_round(state: &State<AppState>, room_id: String) -> String {
         room_id: room_id.clone(),
         kind: RoomEventKind::EndRound,
     });
+
+    //let user_ids = read_room_field(state, &room_id, |r| r.users.clone());
+    let users = read_room_field(state, &room_id, |r| r.users.clone()).unwrap();
+    let user_ids = users.iter().map(|u| u.id.clone()).collect();
+
+    let _ = state.player_events.send(PlayerEvent {
+        player_ids: user_ids,
+        kind: PlayerEventKind::Screen { screen: PlayerScreens::Room },
+    });
     
     "ok".to_string()
 }
@@ -810,8 +819,8 @@ enum PlayerScreens {
     YouGotSelected,
     ToSlow,
     Wrong,
-    Empty,
     Loading,
+    Room,
 }
 
 struct AppState {

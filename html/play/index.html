@@ -10,27 +10,50 @@
 
 
 
-<div class="container">
+<body>
 
-    <nav>
+    <div id="screen-question" class="screen">
+        <p>Question/p>
+    </div>
+
+
+    <div id="screen-correct" class="screen">
+        <h2>This Was correct</h2>
+    </div>
+
+    <div id="screen-in" class="screen">
+        <h2>You are in</h2>
+    </div>
+
+    <div id="screen-out" class="screen">
+        <h2>You are out</h2>
+    </div>
+
+    <div id="screen-you-got-selected" class="screen">
+        <h2>You Got Selected</h2>
+    </div>
+
+    <div id="screen-to-slow" class="screen">
+        <h2>You were too slow</h2>
+    </div>
+
+    <div id="screen-wrong" class="screen">
+        <h2>This was wrong</h2>
+    </div>
+
+    <div id="screen-loading" class="screen">
+        <p>loading...</p>
+    </div>
+
+    <div id="screen-room" class="screen">
         <a id="room">Room</a>
-        <button>Game</button>
-        <button>Nick</button>
-        <button>Leave</button>
-    </nav>
 
-    <div id="content" >
         <input type="text" id="username" placeholder="Nickname" class="textfield">
         <button onclick="update_player()">join room</button>
     </div>
 
-</div>
 
-<div id="Question" class="visible">
-
-</div>
-
-
+</body>
 
 </html>
 
