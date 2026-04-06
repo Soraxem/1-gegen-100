@@ -1,7 +1,117 @@
 [
     {
-        "text":"Was ergibt diese Rechnung? 5+5",
-        "answers": ["10", "11", "12"],
+        "text":"Präteritum von: ich niese",
+        "answers": ["ich noss", "ich nieste", "ich nass"],
+        "correct": 2
+    },
+    {
+        "text":"Perfekt-Zeitform von: ich darf",
+        "answers": ["ich habe gedürft", "ich habe gedarft", "ich habe gedurft"],
+        "correct": 3
+    },
+    {
+        "text":"Was machen nicht nur Architekten beim Autofahren?",
+        "answers": ["gewölbe", "säulen", "kuppeln"],
+        "correct": 3
+    },
+    {
+        "text":"Wie man durch seinen Englischen Namen erahnen kann, hat der Rosenkohl seinen Ursprung in der Gegend von ...",
+        "answers": ["Prag", "Kassel", "Brüssel"],
+        "correct": 3
+    },
+    {
+        "text":"Was wird in die Kategorien initialis, superficialis, media, profunda und sicca unterschieden?",
+        "answers": ["Karies", "Sonnenbrand", "Durchfall"],
         "correct": 1
+    },
+    {
+        "text":"Welches ist der einzige Fussballverein, der bereits die Champions League, die Europa League und die Conference League gewonnen hat?",
+        "answers": ["Real Madrid", "FC Chelsea", "Inter Mailand"],
+        "correct": 2
+    },
+    {
+        "text":"Das Meer oder die Seefahrt betreffend - oder kurz:",
+        "answers": ["narim", "mautisch", "maritim"],
+        "correct": 3
+    },
+    {
+        "text":"Man kann etwas erringen, durchdrücken oder ...",
+        "answers": ["erstfahren", "erstfliegen", "erstreiten"],
+        "correct": 3
+    },
+    {
+        "text":"Welches ist die Hauptstadt von Indien?",
+        "answers": ["Neu Dehli", "Mumbai", "Kolkata"],
+        "correct": 1
+    },
+    {
+        "text":"Wie heisst die japanische Währung?",
+        "answers": ["Yen", "Ying", "Yangtse"],
+        "correct": 1
+    },
+    {
+        "text":"Wie viele Sterne sind auf der Flagge Neuseelands zu sehen?",
+        "answers": ["fünf", "vier", "sieben"],
+        "correct": 2
+    },
+    {
+        "text":"Welches Tier hat drei Herzen?",
+        "answers": ["Wal", "Oktopus", "Chamäleon"],
+        "correct": 2
+    },
+    {
+        "text":"Welches ist der flächenmässig grösste Kontinent?",
+        "answers": ["Nordamerika", "Asien", "Afrika"],
+        "correct": 2
+    },
+    {
+        "text":"In welchem Jahr startete der Erste Weltkrieg?",
+        "answers": ["1910", "1914", "1918"],
+        "correct": 2
+    },
+    {
+        "text":"In welchem Jahr war der Mauerfall in Deutschland?",
+        "answers": ["1989", "1990", "1991"],
+        "correct": 1
+    },
+    {
+        "text":"Welches dieser Tiere ist ein Säugetier?",
+        "answers": ["Adler", "Hai", "Delfin"],
+        "correct": 3
+    },
+    {
+        "text":"Welcher dieser Flüsse fliesst durch Budapest?",
+        "answers": ["Dnepr", "Rhein", "Donau"],
+        "correct": 3
+    },
+    {
+        "text":"Welches Teilchen ist negativ geladen?",
+        "answers": ["Proton", "Elektron", "Neutron"],
+        "correct": 2
+    },
+    {
+        "text":"Welches Gas atmen wir hauptsächlich ein?",
+        "answers": ["Kohlenstoffdioxid CO2", "Stickstoff", "Sauerstoff"],
+        "correct": 2
+    },
+    {
+        "text":"Welches Organ im Mensch produziert Galle?",
+        "answers": ["Leber", "Milz", "Magen"],
+        "correct": 1
+    },
+    {
+        "text":"Welche Ortschaft liegt nördlich von Merishausen?",
+        "answers": ["Bargen", "Beggingen", "Büttenhardt"],
+        "correct": 1
+    },
+    {
+        "text":"Welche Nation gewann die Fussball-Weltmeisterschaft der Männer 2010?",
+        "answers": ["Spanien", "Deutschland", "Frankreich"],
+        "correct": 1
+    },
+    {
+        "text":"Auf dem Schwabentor steht: Lappi ____ d'Augen uf",
+        "answers": ["tuen", "mach", "tue"],
+        "correct": 3
     }
 ]

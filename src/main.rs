@@ -35,6 +35,9 @@ use rand::prelude::*;
 // time fetching
 use std::time::SystemTime;
 
+// Read Questions file
+use std::fs::File;
+
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 struct Room {
@@ -49,6 +52,8 @@ struct Room {
     player: Option<User>,
     // Everyone in the room
     users: Vec<User>,
+
+    questions: Vec<JsonQuestion>,
 }
 
 // Default values for room on creation
@@ -61,6 +66,7 @@ impl Default for Room {
             contestants: Vec::new(),
             player:None,
             users: Vec::new(),
+            questions: fetch_questions(),
         }
     }
 }
@@ -110,13 +116,16 @@ struct Question {
     player_end_time: u64,
 }
 
-fn test_question() -> JsonQuestion {
-    JsonQuestion {
-        text: "Was ergibt diese Rechnung? 1 + 1".to_string(),
-        answers: ["2".to_string(), "3".to_string(), "4".to_string()],
-        correct: 1
-    }
+
+
+// Return all questions
+fn fetch_questions() -> Vec<JsonQuestion> {
+    let questions_file = File::open("questions.json").expect("Failed to open questions.json");
+    let questions: Vec<JsonQuestion> = serde_json::from_reader(questions_file).expect("Failed to parse questions.json");
+    return questions;
 }
+
+   
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 struct User {
@@ -151,7 +160,7 @@ impl<'r> FromRequest<'r> for User {
                         let user = new_user();
                         let new_cookie = Cookie::build(("user_token", serde_json::to_string(&user).unwrap()))
                             .path("/")
-                            .secure(true)
+                            .secure(false)
                             .same_site(SameSite::Lax);
                         req.cookies().add(new_cookie);
                         Outcome::Success(user)
@@ -164,7 +173,7 @@ impl<'r> FromRequest<'r> for User {
                 let user = new_user();
                 let new_cookie = Cookie::build(("user_token", serde_json::to_string(&user).unwrap()))
                     .path("/")
-                    .secure(true)
+                    .secure(false)
                     .same_site(SameSite::Lax);
                 req.cookies().add(new_cookie);
                 Outcome::Success(user)
@@ -310,9 +319,25 @@ fn user_list(state: &State<AppState>, room_id: String) -> String {
 }
 
 
+fn new_question(state: &State<AppState>, room_id: String) -> Option<JsonQuestion> {
+    let mut questions = match read_room_field(state, &room_id, |r| r.questions.clone()) {
+        Some(mut_questions) => mut_questions,
+        None => return None,
+    };
+
+    let random_index = rand::random_range(0..questions.len());
+    let question = questions.swap_remove(random_index);
+
+    update_room_field(state, &room_id, |r| r.questions = questions);
+
+    return Some(question);
+}
+
+
 #[get("/room/<room_id>/question")]
 fn question(state: &State<AppState>, room_id: String) -> String {
 
+    /*
     // Fetch the room state
     let room_state = match read_room_field(state, &room_id, |r| r.state.clone()) {
         Some(state) => state,
@@ -322,9 +347,10 @@ fn question(state: &State<AppState>, room_id: String) -> String {
     if room_state != RoomState::PlayerSelection && room_state != RoomState::EvaluatePlayer {
         return "error".to_string();
     }
+    */
 
-    // ToDo random Question fetching
-    let question = test_question();
+    // Random Question Fetching
+    let question = new_question(state, room_id.clone()).unwrap();
 
     // Save the question
     //update_room_field(state, &room_id, |r| r.question = Some(question.clone()));
@@ -335,12 +361,12 @@ fn question(state: &State<AppState>, room_id: String) -> String {
     let start_time = SystemTime::now()
         .duration_since(SystemTime::UNIX_EPOCH)
         .unwrap()
-        .as_secs() + 10;
+        .as_secs() + 4;
     
-    let end_time = start_time + 10;
+    let end_time = start_time + 12;
 
-    let player_start_time = start_time;
-    let player_end_time = end_time + 40;
+    let player_start_time = end_time;
+    let player_end_time = end_time + 32;
 
     let question = Question {
         text: question.text,
@@ -402,10 +428,8 @@ fn question(state: &State<AppState>, room_id: String) -> String {
     "ok".to_string()
 }
 
-#[get("/room/<room_id>/answer-question/<answer>")]
+#[get("/player/<room_id>/answer-question/<answer>")]
 fn answer_question(state: &State<AppState>, user: User, room_id: String, answer: usize) -> String {
-
-    // Add a "If Player"
 
     // Fetch the question
     let question = match read_room_field(state, &room_id, |r| r.question.clone()) {
@@ -417,12 +441,32 @@ fn answer_question(state: &State<AppState>, user: User, room_id: String, answer:
         .duration_since(SystemTime::UNIX_EPOCH)
         .unwrap()
         .as_secs();
+
+
+    let player = match read_room_field(state, &room_id, |r| r.player.clone()) {
+        Some(player) => player,
+        None => return "error".to_string(),
+    };
     
-    if current_time > question.clone().unwrap().end_time {
-        return "ended".to_string();
-    }
-    if current_time < question.clone().unwrap().start_time {
-        return "not started".to_string();
+    // Detect if User was the main player
+    if user.id == player.unwrap().id {
+
+        if current_time > question.clone().unwrap().player_end_time {
+            return "ended".to_string();
+        }
+        if current_time < question.clone().unwrap().player_start_time {
+            return "not started".to_string();
+        }
+
+    } else {    
+
+        if current_time > question.clone().unwrap().end_time {
+            return "ended".to_string();
+        }
+        if current_time < question.clone().unwrap().start_time {
+            return "not started".to_string();
+        }
+
     }
 
     // Register Answer
@@ -697,7 +741,7 @@ fn update_player_name(room: String, old_user: User, name: String, jar: &CookieJa
 
     let new_cookie = Cookie::build(("user_token", serde_json::to_string(&user).unwrap()))
         .path("/")
-        .secure(true)
+        .secure(false)
         .same_site(SameSite::Lax);
 
     jar.add(new_cookie);
@@ -838,7 +882,7 @@ fn rocket() -> _ {
     let (room_tx, _room_rx) = broadcast::channel(1024);
 
     rocket::build()
-        .mount("/api", routes![manage_room, join_room, check_room, update_player_name, start_round, question, evaluate_contestants, evaluate_player, user_list, end_round])
+        .mount("/api", routes![manage_room, join_room, check_room, update_player_name, start_round, question, evaluate_contestants, evaluate_player, user_list, end_round, answer_question])
         .mount("/", FileServer::from(relative!("html")))
         .manage(AppState {
             tx,

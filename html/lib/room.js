@@ -176,6 +176,11 @@ async function handleMessage(event) {
 
             document.getElementById("evaluated-question").textContent = data.EvaluatePlayer.text;
 
+            const answers = document.querySelectorAll(".answer");
+            answers.forEach(answer => answer.classList.remove("correct"));
+            answers.forEach(answer => answer.classList.remove("wrong"));
+            answers.forEach(answer => answer.classList.remove("wrong-selection"));
+
             for (let i = 0; i < 3; i++) {
                 document.getElementById("evaluated-answer-" + i).textContent = data.EvaluatePlayer.answers[i].answer;
                 document.getElementById("evaluated-answer-" + i).classList.add(data.EvaluatePlayer.answers[i].evaluation);

@@ -13,7 +13,13 @@
 <body>
 
     <div id="screen-question" class="screen">
-        <p>Question/p>
+        <p>Question</p>
+
+        <button id="answer-1" class="answer button" onclick="answer(1)">A</button>
+        <button id="answer-2" class="answer button" onclick="answer(2)">B</button>
+        <button id="answer-3" class="answer button" onclick="answer(3)">C</button>
+
+        <p id="question-time"></p>
     </div>
 
 
@@ -46,7 +52,7 @@
     </div>
 
     <div id="screen-room" class="screen">
-        <a id="room">Room</a>
+        <h2 id="room">Room</h2>
 
         <input type="text" id="username" placeholder="Nickname" class="textfield">
         <button onclick="update_player()">join room</button>

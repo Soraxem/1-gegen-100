@@ -37,7 +37,24 @@ function show_screen(screen) {
     document.getElementById(screen).classList.add("visible");
 }
 
+function is_screen_visible(screen) {
+    return document.getElementById(screen).classList.contains("visible");
+}
+
 show_screen(Screens.Room);
+
+function get_unix_time() {
+    return new Date().getTime() / 1000;
+}
+
+function answer(answer) {
+    fetch("/api/player/" + room + "/answer-question/" + answer);
+
+    const answers = document.querySelectorAll(".answer");
+    answers.forEach(answer => answer.classList.remove("active"));
+
+    document.getElementById("answer-" + answer).classList.add("active");
+}
 
 async function handleMessage(event) {
     const data = JSON.parse(event.data);
@@ -54,6 +71,28 @@ async function handleMessage(event) {
 
     switch (kind) {
         case "Question":
+
+            show_screen(Screens.Loading);
+
+            const answers = document.querySelectorAll(".answer");
+            answers.forEach(answer => answer.classList.remove("active"));
+
+            let startTime = get_unix_time();
+            let timeoutId = setInterval(() => {
+                let currentTime = get_unix_time();
+                if (currentTime >= data.Question.from) {
+                    clearInterval(timeoutId);
+                    show_screen(Screens.Question);
+                    let questionTimeoutId = setInterval(() => {
+                        let currentTime = get_unix_time();
+                        if (currentTime >= data.Question.to || !is_screen_visible(Screens.Question)) {
+                            clearInterval(questionTimeoutId);
+                        } else {
+                            document.getElementById("question-time").textContent = (data.Question.to - currentTime).toFixed(0);
+                        }
+                    }, 100);
+                }
+            }, 100);
 
             break;
         case "Screen":
