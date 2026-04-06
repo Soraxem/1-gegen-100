@@ -114,7 +114,7 @@ fn test_question() -> JsonQuestion {
     JsonQuestion {
         text: "Was ergibt diese Rechnung? 1 + 1".to_string(),
         answers: ["2".to_string(), "3".to_string(), "4".to_string()],
-        correct: 0
+        correct: 1
     }
 }
 
@@ -300,6 +300,14 @@ fn start_round(state: &State<AppState>, room_id: String) -> String {
     "ok".to_string()
 }
 
+#[get("/room/<room_id>/user-list")]
+fn user_list(state: &State<AppState>, room_id: String) -> String {
+
+    match read_room_field(state, &room_id, |r| r.users.clone()) {
+        Some(users) => serde_json::to_string(&users).unwrap(),
+        None => "error".to_string(),
+    }
+}
 
 
 #[get("/room/<room_id>/question")]
@@ -459,18 +467,25 @@ fn evaluate_contestants(state: &State<AppState>, room_id: String) -> String {
 
     // Evaluate the contestants
     for contestant in contestants.clone() {
-        let answer = match read_room_field(state, &room_id, |r| r.answers.get(&contestant.id).cloned()) {
-            Some(answers) => answers,
-            None => return "error".to_string(),
-        };
+    let maybe_answer = match read_room_field(state, &room_id, |r| r.answers.get(&contestant.id).cloned()) {
+        Some(ans) => ans, // This is still an Option (e.g., Option<String>)
+        None => return "error".to_string(),
+    };
 
-        if answer.unwrap() ==  question.clone().unwrap().correct {
+    // Use if let to safely check if the answer exists and matches
+    if let Some(actual_answer) = maybe_answer {
+        if actual_answer == question.clone().unwrap().correct {
             evaluated_players.insert(contestant.id, Evaluation::Correct);
         } else {
             evaluated_players.insert(contestant.id.clone(), Evaluation::Wrong);
             contestants.retain(|c| c.id != contestant.id);
         }
+    } else {
+        // Handle the case where answer is None (e.g., treat as Wrong)
+        evaluated_players.insert(contestant.id.clone(), Evaluation::Wrong);
+        contestants.retain(|c| c.id != contestant.id);
     }
+}
 
     // Update the contestants
     update_room_field(state, &room_id, |r| r.contestants = contestants);
@@ -550,31 +565,50 @@ fn evaluate_player(state: &State<AppState>, room_id: String) -> String {
 
     let mut end_round = false;
 
-    // Check if correct
-    if answer.unwrap() ==  question.clone().unwrap().correct {
-        // Mark correct Answer
-        evaluated_answers[answer.unwrap()-1].evaluation = AnswerSelection::Correct;
+    match answer {
+        Some(answer) => {
+            if answer ==  question.clone().unwrap().correct {
+                // Mark correct Answer
+                evaluated_answers[answer-1].evaluation = AnswerSelection::Correct;
 
-        // Send correct screen
-        let _ = state.player_events.send(PlayerEvent {
-            player_ids: vec![player.clone().unwrap().id],
-            kind: PlayerEventKind::Screen { screen: PlayerScreens::Correct },
-        });
+                // Send correct screen
+                let _ = state.player_events.send(PlayerEvent {
+                    player_ids: vec![player.clone().unwrap().id],
+                    kind: PlayerEventKind::Screen { screen: PlayerScreens::Correct },
+                });
 
-    } else {
-        // Mark incorrect answer and solution
-        evaluated_answers[answer.unwrap()-1].evaluation = AnswerSelection::WrongSelection;
-        evaluated_answers[question.clone().unwrap().correct-1].evaluation = AnswerSelection::Correct;
+            } else {
+                // Mark incorrect answer and solution
+                evaluated_answers[answer-1].evaluation = AnswerSelection::WrongSelection;
+                evaluated_answers[question.clone().unwrap().correct-1].evaluation = AnswerSelection::Correct;
 
-        // Send incorrect screen
-        let _ = state.player_events.send(PlayerEvent {
-            player_ids: vec![player.clone().unwrap().id],
-            kind: PlayerEventKind::Screen { screen: PlayerScreens::Wrong },
-        });
+                // Send incorrect screen
+                let _ = state.player_events.send(PlayerEvent {
+                    player_ids: vec![player.clone().unwrap().id],
+                    kind: PlayerEventKind::Screen { screen: PlayerScreens::Wrong },
+                });
 
-        // Endround
-        end_round = true;
+                // Endround
+                end_round = true;
+            }
+        }
+        None => {
+
+            evaluated_answers[question.clone().unwrap().correct-1].evaluation = AnswerSelection::Correct;
+
+            // Send incorrect screen
+            let _ = state.player_events.send(PlayerEvent {
+                player_ids: vec![player.clone().unwrap().id],
+                kind: PlayerEventKind::Screen { screen: PlayerScreens::ToSlow },
+            });
+
+            // Endround
+                end_round = true;
+
+        }
     }
+    // Check if correct
+    
 
     let _ = state.room_events.send(RoomEvent {
         room_id: room_id.clone(),
@@ -590,6 +624,9 @@ fn evaluate_player(state: &State<AppState>, room_id: String) -> String {
 
 #[get("/room/<room_id>/end-round")]
 fn end_round(state: &State<AppState>, room_id: String) -> String {
+
+    // ToDo Distribute Points
+
     
     // Clean states for new round. Reset to Lobby
 
@@ -598,6 +635,11 @@ fn end_round(state: &State<AppState>, room_id: String) -> String {
     update_room_field(state, &room_id, |r| r.answers = HashMap::new());
 
     update_room_field(state, &room_id, |r| r.state = RoomState::Open);
+
+    let _ = state.room_events.send(RoomEvent {
+        room_id: room_id.clone(),
+        kind: RoomEventKind::EndRound,
+    });
     
     "ok".to_string()
 }
@@ -714,9 +756,12 @@ struct EvaluatedAnswer {
 // Answer marking options
 #[derive(Serialize, Deserialize, Clone, Debug)]
 enum AnswerSelection {
+    #[serde(rename = "correct")]
     Correct,
+    #[serde(rename = "wrong")]
     Wrong,
     Neutral,
+    #[serde(rename = "wrong-selection")]
     WrongSelection,
 }
 
@@ -730,8 +775,11 @@ struct EvaluatedUser {
 // User marking options
 #[derive(Serialize, Deserialize, Clone, Debug)]
 enum Evaluation {
+    #[serde(rename = "user-correct")]
     Correct,
+    #[serde(rename = "user-wrong")]
     Wrong,
+    #[serde(rename = "user-out")]
     Out,
 }
 
@@ -781,7 +829,7 @@ fn rocket() -> _ {
     let (room_tx, _room_rx) = broadcast::channel(1024);
 
     rocket::build()
-        .mount("/api", routes![manage_room, join_room, check_room, update_player_name, start_round, question])
+        .mount("/api", routes![manage_room, join_room, check_room, update_player_name, start_round, question, evaluate_contestants, evaluate_player, user_list, end_round])
         .mount("/", FileServer::from(relative!("html")))
         .manage(AppState {
             tx,

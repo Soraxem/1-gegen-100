@@ -82,6 +82,36 @@ h2 {
   background-color: var(--color-light);
 }
 
+/* Visibillity marking, for prototyping */
+.visible {
+  border-color: greenyellow;
+  border-width: 3pt;
+  border-style: solid;
+}
+
+.invisible {
+  border-color: rgb(255, 47, 47);
+  border-width: 3pt;
+  border-style: solid;
+}
+
+/* User Highlights */
+
+.user {
+  background-color: var(--color-light);
+}
+
+.user-out {
+  background-color: rgb(36, 2, 2);
+}
+
+.user-wrong {
+  background-color: rgb(179, 1, 1);
+}
+
+.user-correct {
+  background-color: rgb(1, 179, 1);
+}
 
 
 /*ELEMENTS*/
@@ -266,8 +296,14 @@ h2 {
 
 }
 
-.false {
+.wrong {
   background-color: red;
+  color: var(--color-light);
+
+}
+
+.wrong-selection {
+  background-color: orange;
   color: var(--color-light);
 
 }

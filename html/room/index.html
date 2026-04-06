@@ -18,23 +18,56 @@
 
         <div id="screen-room" class="screen">
             <h1 id="room">Room</h1>
+
+            <ul id="users">
+                
+            </ul>
+
             <button class="button" onclick="start_round()">Start Round</button>
         </div>
         
         <div id="screen-player-selection" class="screen">
             <h1>Player Selection</h1>
+            <div id="selected-player">Username</div>
             <button class="button" onclick="question()">Question</button>
         </div>
         
         <div id="screen-question" class="screen">
             <h2>Frage</h2>
+            <div id="question-time"></div>
             <p id="question" >Wo wurde Jesus geboren?</p>
             <div class="answer-options">
-                <p class="answer">Nazareth</p>
-                <p class="answer">Bethlehem</p>
-                <p class="answer">Jerusalem</p>
+                <p id="answer-0" class="answer">Nazareth</p>
+                <p id="answer-1" class="answer">Bethlehem</p>
+                <p id="answer-2" class="answer">Jerusalem</p>
                 <script src="/lib/answer.js"></script>
             </div>
+            <button class="button" onclick="evaluate_contestants()">Results</button>
+        </div>
+
+        <div id="screen-evaluate-contestants" class="screen">
+            <h1>Results</h1>
+
+            <ul id="contestants">
+                
+            </ul>
+
+            <button class="button" onclick="evaluate_player()">Player Result</button>
+        </div>
+
+        <div id="screen-evaluate-player" class="screen">
+            <h1>Question Result</h1>
+
+            <p id="evaluated-question" >Wo wurde Jesus geboren?</p>
+            <div class="answer-options">
+                <p id="evaluated-answer-0" class="answer">Nazareth</p>
+                <p id="evaluated-answer-1" class="answer">Bethlehem</p>
+                <p id="evaluated-answer-2" class="answer">Jerusalem</p>
+                <script src="/lib/answer.js"></script>
+            </div>
+
+            <button id="next-question" class="button" onclick="question()">Next Question</button>
+            <button class="button" onclick="end_round()">End Round</button>
         </div>
         
     </body>
@@ -42,7 +75,7 @@
 </html>
 
 <template id="user-entry">
-    <li id="user-id">There is an Error!</li>
+    <li class="user" id="user-id">Username</li>
 </template>
 
 
