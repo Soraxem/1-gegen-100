@@ -42,7 +42,7 @@ struct Room {
     // Current question
     question: Option<Question>,
     // Submitted answers
-    answers: HashMap<String, i32>,
+    answers: HashMap<String, usize>,
     // All players that still are in the current round
     contestants: Vec<User>,
     // The player everyone is competing against
@@ -91,7 +91,7 @@ struct JsonQuestion {
     /// All possible answers
     answers: [String; 3],
     /// Index of the correct answer, using a 1 based index!!
-    correct: i32,
+    correct: usize,
 }
 
 /// Question struct for the server
@@ -102,7 +102,7 @@ struct Question {
     /// All possible answers
     answers: [String; 3],
     /// Index of the correct answer, using a 1 based index!!
-    correct: i32,
+    correct: usize,
 
     start_time: u64,
     end_time: u64,
@@ -395,7 +395,7 @@ fn question(state: &State<AppState>, room_id: String) -> String {
 }
 
 #[get("/room/<room_id>/answer-question/<answer>")]
-fn answer_question(state: &State<AppState>, user: User, room_id: String, answer: i32) -> String {
+fn answer_question(state: &State<AppState>, user: User, room_id: String, answer: usize) -> String {
 
     // Add a "If Player"
 
@@ -514,13 +514,91 @@ fn evaluate_contestants(state: &State<AppState>, room_id: String) -> String {
 fn evaluate_player(state: &State<AppState>, room_id: String) -> String {
     
 
-    
+    // Fetch the question
+    let question = match read_room_field(state, &room_id, |r| r.question.clone()) {
+        Some(question) => question,
+        None => return "error".to_string(),
+    };
+
+    // Fetch The Player
+    let player = match read_room_field(state, &room_id, |r| r.player.clone()) {
+        Some(player) => player,
+        None => return "error".to_string(),
+    };
+
+    // fetch the players answer
+    let answer = match read_room_field(state, &room_id, |r| r.answers.get(&player.clone().unwrap().id).cloned()) {
+        Some(answers) => answers,
+        None => return "error".to_string(),
+    };
+
+
+    let mut evaluated_answers = [
+        EvaluatedAnswer {
+            answer: question.clone().unwrap().answers.get(0).cloned().unwrap(),
+            evaluation: AnswerSelection::Wrong,
+        },
+        EvaluatedAnswer {
+            answer: question.clone().unwrap().answers.get(1).cloned().unwrap(),
+            evaluation: AnswerSelection::Wrong,
+        },
+        EvaluatedAnswer {
+            answer: question.clone().unwrap().answers.get(2).cloned().unwrap(),
+            evaluation: AnswerSelection::Wrong,
+        },
+    ];
+
+    let mut end_round = false;
+
+    // Check if correct
+    if answer.unwrap() ==  question.clone().unwrap().correct {
+        // Mark correct Answer
+        evaluated_answers[answer.unwrap()-1].evaluation = AnswerSelection::Correct;
+
+        // Send correct screen
+        let _ = state.player_events.send(PlayerEvent {
+            player_ids: vec![player.clone().unwrap().id],
+            kind: PlayerEventKind::Screen { screen: PlayerScreens::Correct },
+        });
+
+    } else {
+        // Mark incorrect answer and solution
+        evaluated_answers[answer.unwrap()-1].evaluation = AnswerSelection::WrongSelection;
+        evaluated_answers[question.clone().unwrap().correct-1].evaluation = AnswerSelection::Correct;
+
+        // Send incorrect screen
+        let _ = state.player_events.send(PlayerEvent {
+            player_ids: vec![player.clone().unwrap().id],
+            kind: PlayerEventKind::Screen { screen: PlayerScreens::Wrong },
+        });
+
+        // Endround
+        end_round = true;
+    }
+
+    let _ = state.room_events.send(RoomEvent {
+        room_id: room_id.clone(),
+        kind: RoomEventKind::EvaluatePlayer {
+            text: question.clone().unwrap().text,
+            answers: evaluated_answers,
+            end_round
+        },
+    });
 
     "ok".to_string()
 }
 
 #[get("/room/<room_id>/end-round")]
 fn end_round(state: &State<AppState>, room_id: String) -> String {
+    
+    // Clean states for new round. Reset to Lobby
+
+    update_room_field(state, &room_id, |r| r.question = None);
+    update_room_field(state, &room_id, |r| r.player = None);
+    update_room_field(state, &room_id, |r| r.answers = HashMap::new());
+
+    update_room_field(state, &room_id, |r| r.state = RoomState::Open);
+    
     "ok".to_string()
 }
 
@@ -621,6 +699,7 @@ enum RoomEventKind {
     EvaluatePlayer {
         text: String,
         answers: [EvaluatedAnswer; 3],
+        end_round: bool
     },
     EndRound,
 }
