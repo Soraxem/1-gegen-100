@@ -2,12 +2,21 @@
 
 Party game variant of the 1 vs 100 gameshow.
 
+## Development
+
+To run the Development environment you need docker and docker compose installed. Then go into this dir and run this command:
+
+```bash
+sudo docker compose -f development-compose.yaml up
+```
+
+
 ## Terms
 
 This software needs some standart terms
 
 contestants -> All players that play against the challenger
-challenger -> one player that plays against the contestants
+Player -> one player that plays against the contestants
 
 ## Round Logic
 

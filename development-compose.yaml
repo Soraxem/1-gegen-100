@@ -1,5 +1,5 @@
 services:
-  artman:
+  game:
     build:
       context: .
       dockerfile: development.dockerfile

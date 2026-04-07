@@ -91,11 +91,6 @@ button {
   font-family: 'Rethink Sans', regular;
 }
 
-/* Visibillity marking, for prototyping */
-.visible {
-
-}
-
 .invisible {
   display: none !important;
 }
@@ -343,20 +338,17 @@ button {
   color: var(--color-light);
 }
 
-.correct {
+.answer.correct {
   background: green;
   color: var(--color-light);
-
 }
 
-.wrong {
+.answer.wrong {
   background-color: red;
   color: var(--color-light);
-
 }
 
-.wrong-selection {
+.answer.wrong-selection {
   background-color: orange;
   color: var(--color-light);
-
 }

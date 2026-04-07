@@ -24,7 +24,7 @@ const Screens = Object.freeze({
     YouGotSelected: "screen-you-got-selected",
     ToSlow: "screen-to-slow",
     Wrong: "screen-wrong",
-    Loading: "screen-loading",
+    Loading: "loading",
     Room: "screen-room",
 });
 

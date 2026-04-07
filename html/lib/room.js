@@ -222,3 +222,9 @@ function connect() {
 
 // Start Streaming events
 connect();
+
+
+async function onlin_users() {
+    const users = await fetch("/api/room/" + room + "/user-list");
+    console.log(users.json());
+}

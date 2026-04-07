@@ -739,6 +739,8 @@ fn update_player_name(room: String, old_user: User, name: String, jar: &CookieJa
     let mut user = old_user.clone();
     user.name = name;
 
+    update_room_field(state, &room, |r| r.users = r.users.iter().map(|u| if u.id == old_user.id { user.clone() } else { u.clone() }).collect());
+
     let new_cookie = Cookie::build(("user_token", serde_json::to_string(&user).unwrap()))
         .path("/")
         .secure(false)
