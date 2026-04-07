@@ -5,4 +5,5 @@ services:
       dockerfile: development.dockerfile
     volumes:
       - ./:/app
-    network_mode: host
+    ports:
+      - 8080:8080
