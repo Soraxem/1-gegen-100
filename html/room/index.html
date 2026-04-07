@@ -3,17 +3,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <head>
-        <title>1 Gegen 100 - Room</title>
+        <title>Room - 1 Gegen 100</title>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="/lib/style.css">
     </head>
 
-    <body>
+    <body class="room">
         
         <div id="loading" class="screen">
-            <p>loading...</p>
+            <div class="loader"></div>
         </div>
 
         <div id="screen-room" class="screen">
@@ -33,9 +33,11 @@
         </div>
         
         <div id="screen-question" class="screen">
-            <h2>Frage</h2>
-            <div id="question-time"></div>
-            <p id="question" >Wo wurde Jesus geboren?</p>
+            <div>
+                <h3>Frage</h3>
+                <div id="question-time"></div>
+                <p id="question" >Wo wurde Jesus geboren? Ich brauche mehr Text.</p>
+            </div>
             <div class="answer-options">
                 <p id="answer-0" class="answer">Nazareth</p>
                 <p id="answer-1" class="answer">Bethlehem</p>

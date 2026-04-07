@@ -3,6 +3,7 @@
 :root {
 
   /*COLORS*/
+  /*--color-bg: linear-gradient(45deg, #DE462F 0%, #FE9A56 100%);*/
   --color-bg: linear-gradient(45deg, #DE462F 0%, #FE9A56 100%);
   --color-lighter: #fff;
   --color-light: #f5f5f5;
@@ -16,11 +17,12 @@
   
   /*FONTST*/
 
-  --font-primary: 'Rethink Sans', sans-serif;
+  --font-primary: 'Georgia', serif;
+  --font-secondary: 'Rethink Sans', sans-serif;
 
   /* Font sizes */
   --text-sm: 14px;
-  --text-md: 16px;
+  --text-md: 20px;
   --text-lg: 32px;
   --text-xl: 50px;
 
@@ -39,7 +41,10 @@ body {
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  gap: 80px;
+  gap: 24px;
+  margin: 0px;
+  padding-top: 24px;
+  padding-bottom: 24px;
   
   font-family: var(--font-primary);
 }
@@ -49,37 +54,41 @@ body {
 
 #hero {
   font-size: 80px;
-  font-weight: var(--weight-bold);
-  text-transform: uppercase;
+  font-weight: var(--weight-regular);
+  text-transform: none;
+  letter-spacing: -3%;
 }
 
 h1 {
   text-align: center;
   font-size: var(--text-xl);
-  font-weight: var(--weight-bold);
+  font-weight: var(--weight-regular);
   color: var(--color-light);
   margin: 0px;
-}
-
-#question {
-  text-align: center;
-  font-size: var(--text-xl);
-  font-weight: var(--weight-light);
-  color: var(--color-light);
-  margin-top: 0px;
-  margin-bottom: 40px;
 }
 
 h2 {
   text-align: center;
   font-size: var(--text-lg);
-  font-weight: var(--weight-bold);
+  font-weight: var(--weight-regular);
   margin: none;
+}
+
+h3 {
+  font-family: var(--font-secondary);
+  text-align: center;
+  font-size: var(--text-md);
+  font-weight: var(--weight-medium);
+  letter-spacing: 4%;
 }
 
 .antwort {
   color: var(--color-dark);
   background-color: var(--color-light);
+}
+
+button {
+  font-family: 'Rethink Sans', regular;
 }
 
 /* Visibillity marking, for prototyping */
@@ -129,29 +138,6 @@ h2 {
   height: fit-content;
 
   background: var(--color-light);
-}
-
-.screen {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  
-  padding: 8px;
-  border-radius: 32px;
-  width: 80vw;
-  height: 80vh;
-
-  background: var(--color-darker);
-
-  @media (max-width: 600px) {
-  height: 100vh;
-  width: 100vw;
-  border-radius: 0px;
-  padding-bottom: 120px;
-  }
 }
 
 .input {
@@ -231,10 +217,68 @@ h2 {
 
 /*SCREENS*/
 
+.screen {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  
+  
+  border-radius: 32px;
+  width: 80vw;
+  height: 80vh;
+
+  background: var(--color-darker);
+
+  @media (max-width: 600px) {
+  height: 100vh;
+  width: 100vw;
+  border-radius: 0px;
+  }
+}
+
+.room {
+  background: var(--color-dark);
+}
+
 #loading {
   color: var(--color-light);
   justify-content: center;
   align-items: center;
+}
+
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 35px;
+  height: 80px;
+  position: relative;
+}
+.loader:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 3px 5px;
+  border-top: 1px solid var(--color-light);
+  border-bottom: 4px solid var(--color-light);
+  background: 
+    var(--color-bg) bottom no-repeat content-box, 
+    var(--color-lighter);
+  mix-blend-mode: lighten;
+  animation: l1 1.5s infinite linear;
+}
+.loader:before {
+  content: "";
+  position: absolute;
+  inset: -18px calc(50% - 2px) 8px;
+  background: #eb6b3e;   
+  transform-origin: bottom;
+  transform: rotate(8deg);
+}
+@keyframes l1 {
+ 0%   {background-size: 100% 100%}
+ 100% {background-size: 100% 5%}
 }
 
 #screen-login {
@@ -254,10 +298,22 @@ h2 {
   align-items: stretch;
 }
 
+#question {
+  text-align: center;
+  font-size: var(--text-lg);
+  font-weight: var(--weight-light);
+  line-height: 140%;
+  color: var(--color-light);
+  margin: 64px 12px 64px 12px;
+}
+
 .answer-options {
   display: flex;
   flex-direction: column;
   justify-content: center;
+
+  gap: 8px;
+  padding: 12px 12px 80px 12px;
   
   color: var(--color-light);
 }
@@ -267,18 +323,19 @@ h2 {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  margin: 0px;
 
+  font-family: var(--font-secondary);
+  font-weight: var(--weight-light);
+  font-size: var(--text-md);
   text-align: center;
-  font-size: var(--text-lg);
   color: var(--color-dark);
   background: var(--color-light);
   border: solid 2px var(--color-light);
   cursor: pointer;
   
   border-radius: 24px;
-  height: 120px;
-  margin: 0px;
-  margin-top: 8px;
+  height: 80px;
 }
 
 .answer.active {
