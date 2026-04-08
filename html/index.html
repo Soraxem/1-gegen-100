@@ -13,17 +13,17 @@
 
     <body>
         
-        <div id="screen-login">
+        <div id="screen-login" class="screen">
 
             <h1 id="hero">1 gegen 100</h1>
             
             <div class="enter-code">
                 <input type="text" id="room_id" placeholder="Room Name" class="input">
-                <button id="sprk" class="button primary" onclick="join_room()">Join Room</button>
+                <button id="sprk" class="button primary" onclick="join_room()">Join</button>
                 <script src="lib/spark.js"></script>
             </div>
             
-            <button class="button secondary" onclick="create_room()">Create Room</button>
+            <button class="button secondary" id="create-room" onclick="create_room()">Create Room</button>
             
         </div>
 

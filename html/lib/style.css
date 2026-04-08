@@ -43,8 +43,6 @@ body {
   align-items: center;
   gap: 24px;
   margin: 0px;
-  padding-top: 24px;
-  padding-bottom: 24px;
   
   font-family: var(--font-primary);
 }
@@ -72,6 +70,7 @@ h2 {
   font-size: var(--text-lg);
   font-weight: var(--weight-regular);
   margin: none;
+  color: var(--color-light);
 }
 
 h3 {
@@ -91,14 +90,22 @@ button {
   font-family: 'Rethink Sans', regular;
 }
 
-.invisible {
-  display: none !important;
-}
 
 /* User Highlights */
 
 .user {
-  background-color: var(--color-light);
+  color: var(--color-light);
+  background-color: var(--color-dark);
+
+  padding: 4px 16px 4px 16px;
+  border-radius: 12px;
+  margin-bottom: 4px;
+
+  font-family: var(--font-secondary);
+  font-size: var(--text-md);
+  text-transform: uppercase;
+  text-align: center;
+
 }
 
 .user-out {
@@ -113,12 +120,28 @@ button {
   background-color: rgb(1, 179, 1);
 }
 
+#selected-player {
+  font-family: var(--font-secondary);
+  font-size: var(--text-lg);
+  text-transform: uppercase;
+  color: var(--color-light);
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
 
 /*ELEMENTS*/
+
+
+
+.invisible {
+  display: none !important;
+}
 
 .visibility {
   display: hidden;
 }
+
+
 
 .enter-code {
   display: flex;
@@ -144,7 +167,6 @@ button {
 
   font-size: var(--text-md);
   text-align: center;
-  text-transform: uppercase;
 }
 
 .button {
@@ -208,6 +230,12 @@ button {
     transform: none;
   }
 
+  #create-room {
+    @media (max-width: 600px) {
+      display: none;
+    }
+  }
+
 
 
 /*SCREENS*/
@@ -216,26 +244,19 @@ button {
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  box-sizing: border-box;
+  justify-content: space-between;
   align-items: center;
-  gap: 8px;
-  
-  
-  border-radius: 32px;
-  width: 80vw;
-  height: 80vh;
-
-  background: var(--color-darker);
-
-  @media (max-width: 600px) {
   height: 100vh;
   width: 100vw;
-  border-radius: 0px;
-  }
+  padding-bottom: 200px;
+  padding-top: 80px;
+
+  background-color: var(--color-darker);
 }
 
-.room {
-  background: var(--color-dark);
+#screen-login {
+  background-color: var(--color-bg);
 }
 
 #loading {
@@ -244,7 +265,6 @@ button {
   align-items: center;
 }
 
-/* HTML: <div class="loader"></div> */
 .loader {
   width: 35px;
   height: 80px;
@@ -276,21 +296,27 @@ button {
  100% {background-size: 100% 5%}
 }
 
-#screen-login {
-  display: flex;
-  flex-direction: column;
+#screen-correct,
+#screen-in,
+#screen-out,
+#screen-you-got-selected,
+#screen-to-slow,
+#screen-wrong {
   justify-content: center;
-  align-items: center;
-  gap: 80px;
-
-  height: 100vh;
-  width: 100vw;
 }
+
 
 #screen-question {
   color: var(--color-light);
   justify-content: space-between;
-  align-items: stretch;
+  align-items: center;
+}
+
+.section-question {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 #question {
@@ -302,10 +328,18 @@ button {
   margin: 64px 12px 64px 12px;
 }
 
+#question-time {
+  color: var(--color-orange-l);
+  justify-self: center;
+  font-size: var(--text-md);
+}
+
 .answer-options {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  box-sizing: border-box;
+  width: 100%;
 
   gap: 8px;
   padding: 12px 12px 80px 12px;
@@ -318,7 +352,10 @@ button {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  box-sizing: border-box;
   margin: 0px;
+  width: 100%;
+  
 
   font-family: var(--font-secondary);
   font-weight: var(--weight-light);
@@ -339,16 +376,29 @@ button {
 }
 
 .answer.correct {
-  background: green;
+  background: rgb(47, 120, 47);
   color: var(--color-light);
 }
 
 .answer.wrong {
-  background-color: red;
+  background-color: rgb(177, 25, 25);
   color: var(--color-light);
 }
 
 .answer.wrong-selection {
-  background-color: orange;
+  background-color: rgb(229, 151, 6);
   color: var(--color-light);
+}
+
+#evaluated-question {
+  color: var(--color-light);
+  font-size: var(--text-lg);
+}
+
+.navigate-round {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
 }

@@ -19,21 +19,19 @@
         <div id="screen-room" class="screen">
             <h1 id="room">Room</h1>
 
-            <ul id="users">
-                
-            </ul>
+            <div id="users"></div>
 
-            <button class="button" onclick="start_round()">Start Round</button>
+            <button class="button" onclick="start_round()">Runde starten</button>
         </div>
         
         <div id="screen-player-selection" class="screen">
-            <h1>Player Selection</h1>
+            <h1>Spieler Auswahl</h1>
             <div id="selected-player">Username</div>
-            <button class="button" onclick="question()">Question</button>
+            <button class="button" onclick="question()">Frage</button>
         </div>
         
         <div id="screen-question" class="screen">
-            <div>
+            <div class="section-question">
                 <h3>Frage</h3>
                 <div id="question-time"></div>
                 <p id="question" >Wo wurde Jesus geboren? Ich brauche mehr Text.</p>
@@ -44,21 +42,21 @@
                 <p id="answer-2" class="answer">Jerusalem</p>
                 <script src="/lib/answer.js"></script>
             </div>
-            <button class="button" onclick="evaluate_contestants()">Results</button>
+            <button class="button" onclick="evaluate_contestants()">Resultate</button>
         </div>
 
         <div id="screen-evaluate-contestants" class="screen">
-            <h1>Results</h1>
+            <h2>Resultate</h2>
 
-            <ul id="contestants">
+            <div id="contestants">
                 
-            </ul>
+            </div>
 
-            <button class="button" onclick="evaluate_player()">Player Result</button>
+            <button class="button" onclick="evaluate_player()">Antwort</button>
         </div>
 
         <div id="screen-evaluate-player" class="screen">
-            <h1>Question Result</h1>
+            <h2>Antwort</h2>
 
             <p id="evaluated-question" >Wo wurde Jesus geboren?</p>
             <div class="answer-options">
@@ -67,9 +65,11 @@
                 <p id="evaluated-answer-2" class="answer">Jerusalem</p>
                 <script src="/lib/answer.js"></script>
             </div>
-
-            <button id="next-question" class="button" onclick="question()">Next Question</button>
-            <button class="button" onclick="end_round()">End Round</button>
+            <div class="navigate-round">
+                <button id="next-question" class="button" onclick="question()">Nächste Frage</button>
+                <button class="button" onclick="end_round()">Runde beenden</button>
+            </div>
+            
         </div>
         
     </body>
@@ -77,7 +77,7 @@
 </html>
 
 <template id="user-entry">
-    <li class="user" id="user-id">Username</li>
+    <div class="user" id="user-id">Username</div>
 </template>
 
 

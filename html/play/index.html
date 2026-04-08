@@ -19,38 +19,40 @@
 <body>
 
     <div id="screen-question" class="screen">
-        <p>Question</p>
-
-        <button id="answer-1" class="answer button" onclick="answer(1)">A</button>
-        <button id="answer-2" class="answer button" onclick="answer(2)">B</button>
-        <button id="answer-3" class="answer button" onclick="answer(3)">C</button>
+        <h3>Frage</h3>
+        <h2 id="question"></h2>
+        <div class="answer-options">
+            <button id="answer-1" class="answer button" onclick="answer(1)">A</button>
+            <button id="answer-2" class="answer button" onclick="answer(2)">B</button>
+            <button id="answer-3" class="answer button" onclick="answer(3)">C</button>
+        </div>
 
         <p id="question-time"></p>
     </div>
 
 
     <div id="screen-correct" class="screen">
-        <h2>This Was correct</h2>
+        <h2>Deine Antwort war richtig!</h2>
     </div>
 
     <div id="screen-in" class="screen">
-        <h2>You are in</h2>
+        <h2>Du bist noch dabei!</h2>
     </div>
 
     <div id="screen-out" class="screen">
-        <h2>You are out</h2>
+        <h2>Du bist leider draussen.</h2>
     </div>
 
     <div id="screen-you-got-selected" class="screen">
-        <h2>You Got Selected</h2>
+        <h2>Du spielst gegen alle!</h2>
     </div>
 
     <div id="screen-to-slow" class="screen">
-        <h2>You were too slow</h2>
+        <h2>Du warst zu langsam.</h2>
     </div>
 
     <div id="screen-wrong" class="screen">
-        <h2>This was wrong</h2>
+        <h2>Deine Antwort war falsch.</h2>
     </div>
 
     <div id="loading" class="screen">
@@ -59,9 +61,10 @@
 
     <div id="screen-room" class="screen">
         <h2 id="room">Room</h2>
-
-        <input type="text" id="username" placeholder="Nickname" class="textfield">
-        <button onclick="update_player()">join room</button>
+        <div class="enter-code">
+            <input type="text" id="username" placeholder="Nickname" class="input">
+            <button class="button primary" onclick="update_player()">Let's Go!</button>
+        </div>
     </div>
 
 
