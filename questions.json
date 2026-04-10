@@ -10,7 +10,7 @@
         "correct": 3
     },
     {
-        "text":"Was machen Architekten beim handgeschalten Autofahren?",
+        "text":"Was machen Architekten beim handgeschaltenen Autofahren?",
         "answers": ["gewölbe", "säulen", "kuppeln"],
         "correct": 3
     },
@@ -81,7 +81,7 @@
     },
     {
         "text":"Welcher dieser Flüsse fliesst durch Budapest?",
-        "answers": ["Dnepr", "Rhein", "Donau"],
+        "answers": ["Dnepr", "Inn", "Donau"],
         "correct": 3
     },
     {
@@ -130,7 +130,7 @@
         "correct": 2
     },
     {
-        "text":"Wie viele Quadrat-Dezimeter hat ein Quadratmeter?",
+        "text":"Wie viele Quadrat-Dezimeter hat ein Quadrat-Meter?",
         "answers": ["10", "100", "1000"],
         "correct": 2
     },
@@ -176,13 +176,13 @@
     },
     {
         "text":"Welche Tiere benutzte Hannibal bei seinem Feldzug über die Alpen?",
-        "answers": ["Elefanten", "Nashörner", "Rinder"],
+        "answers": ["Elefanten", "Nashörner", "Ochsen"],
         "correct": 1
     },
     {
         "text":"Was beginnt mit den Worten: Oh say, can you see?",
         "answers": ["Hamlet", "Love Me Do von den Beatles", "US-Nationalhymne"],
-        "correct": 1
+        "correct": 3
     },
     {
         "text":"Wer besiegte 1187 die Kreuzritter und eroberte Jerusalem?",
@@ -200,7 +200,7 @@
         "correct": 3
     },
     {
-        "text":"Was macht der Platzwart in seinem Beruf?",
+        "text":"Was macht ein Platzwart in seinem Beruf?",
         "answers": ["an der Tube schnüffeln", "ein paar Linien ziehen", "sich ne Tüte drehen"],
         "correct": 2
     },
@@ -216,8 +216,8 @@
     },
     {
         "text":"Welchen Jahrgang hat Martin?",
-        "answers": ["1990", "1993", "1996"],
-        "correct": 1
+        "answers": ["1988", "1990", "1993"],
+        "correct": 2
     },
     {
         "text":"Wobei handelt es sich um ein Notsignal im internationalen Flugverkehr?",
@@ -280,7 +280,7 @@
         "correct": 2
     },
     {
-        "text":"Wie weit ist die Strecke vom Mesmerhaus zum Volg?",
+        "text":"Wie weit ist die Strecke vom Mesmerhaus zum Volg Löhningen?",
         "answers": ["410m", "355m", "290m"],
         "correct": 3
     },
@@ -292,6 +292,191 @@
     {
         "text":"In welchem Gegenstand ist das Metall, das ihm seinen Namen gibt, gar nicht enthalten?",
         "answers": ["Zinnsoldat", "Alufolie", "Bleistift"],
+        "correct": 3
+    },
+    {
+        "text":"Welches ist der wahrscheinlich älteste Brief im Neuen Testament?",
+        "answers": ["1.Timotheus", "1.Korinther", "1.Thessalonicher"],
+        "correct": 3
+    },
+    {
+        "text":"Welches ist der wahrscheinlich jüngste Brief im Neuen Testament?",
+        "answers": ["2.Petrus", "2.Korinther", "2.Timotheus"],
         "correct": 1
+    },
+    {
+        "text":"Welches ist das letzte Buch im Alten Testament?",
+        "answers": ["Haggai", "Maleachi", "Sacharja"],
+        "correct": 2
+    },
+    {
+        "text":"Wie viele Insta-Follower hatte der JG-Account heute morgen?",
+        "answers": ["87", "110", "194"],
+        "correct": 2
+    },
+    {
+        "text":"Wie viele Insta-Follower hatte der TC Chläggi Account heute morgen?",
+        "answers": ["93", "132", "173"],
+        "correct": 3
+    },
+    {
+        "text":"Wie viele Beiträge hat der Insta-Account der JKK bereits gepostet?",
+        "answers": ["174", "243", "324"],
+        "correct": 1
+    },
+    {
+        "text":"Wie viele Haupt- und Nebenfrauen hatte König Salomo insgesamt?",
+        "answers": ["700", "900", "1000"],
+        "correct": 3
+    },
+    {
+        "text":"Welche Figur aus der Sesamstrasse besitzt ein blaues Fell?",
+        "answers": ["Elmo", "Ernie", "Krümelmonster"],
+        "correct": 3
+    },
+    {
+        "text":"Welches dieser Tiere hält Winterschlaf?",
+        "answers": ["Damhirsch", "Wildschwein", "Murmeltier"],
+        "correct": 3
+    },
+    {
+        "text":"Wie heisst die Hauptstadt von Deutschland?",
+        "answers": ["München", "Berlin", "Hamburg"],
+        "correct": 2
+    },
+    {
+        "text":"Welcher Superheld heisst mit bürgerlichem Namen: Bruce Wayne?",
+        "answers": ["Superman", "Iron Man", "Batman"],
+        "correct": 3
+    },
+    {
+        "text":"Welches Säugetier hat die meisten Zähne im gesamten Tierreich?",
+        "answers": ["Delfin", "Nashorn", "Eisbär"],
+        "correct": 1
+    },
+    {
+        "text":"Welche Insekten schmecken mit ihren Füssen?",
+        "answers": ["Bienen", "Schmetterlinge", "Marienkäfer"],
+        "correct": 2
+    },
+    {
+        "text":"Wie nennt man einen Körper, der sechs gleich grosse, quadratische Seitenflächen hat?",
+        "answers": ["Würfel", "Quader", "Rechteck"],
+        "correct": 1
+    },
+    {
+        "text":"Wie heisst der zweithöchste Berg der Welt?",
+        "answers": ["Mount Everest", "K2", "Mont Blanc"],
+        "correct": 2
+    },
+    {
+        "text":"Wie lange dauert es, bis die Erde einmal komplett die Sonne umkreist?",
+        "answers": ["1 Tag", "1 Monat", "1 Jahr"],
+        "correct": 3
+    },
+    {
+        "text":"Welches ist das Musikvideo, das auf Youtube am meisten Views hat?",
+        "answers": ["Despacito", "Shape of You", "Gangnam Style"],
+        "correct": 1
+    },
+    {
+        "text":"Welche dieser Bands ist keine K-Pop-Band?",
+        "answers": ["Blackpink", "Big Bang", "Tang Dynasty"],
+        "correct": 3
+    },
+    {
+        "text":"Wie viele Knochen hat es im menschlichen Körper?",
+        "answers": ["115", "206", "283"],
+        "correct": 2
+    },
+    {
+        "text":"Was ergibt 17 mal 17?",
+        "answers": ["269", "279", "289"],
+        "correct": 3
+    },
+    {
+        "text":"Welcher Handy-Hersteller stellt das Modell Xperia her?",
+        "answers": ["Nokia", "Samsung", "Sony"],
+        "correct": 3
+    },
+    {
+        "text":"Welche NASA-Mission brachte erstmals erfolgreich Menschen auf den Mond?",
+        "answers": ["Apollo 11", "Apollo 12", "Apollo 13"],
+        "correct": 1
+    },
+    {
+        "text":"Welche dieser Sprachen hat das längste Alphabet?",
+        "answers": ["Griechisch", "Russisch", "Arabisch"],
+        "correct": 2
+    },
+    {
+        "text":"Welches ist die Hauptstadt von Australien?",
+        "answers": ["Sydney", "Melbourne", "Canberra"],
+        "correct": 3
+    },
+    {
+        "text":"Welcher Song hat aktuell die meisten Streams auf Spotify?",
+        "answers": ["Blinding Lights", "Shape of You", "Someone You Loved"],
+        "correct": 1
+    },
+    {
+        "text":"Wie heisst Eminem mit bürgerlichem Namen?",
+        "answers": ["Eric Minem", "Marshall Mathers", "Slim Shady"],
+        "correct": 2
+    },
+    {
+        "text":"Welcher Fluss fliesst durch Paris?",
+        "answers": ["Rhone", "Themse", "Seine"],
+        "correct": 3
+    },
+    {
+        "text":"Welches Land hat den USA die Freiheitsstatue geschenkt?",
+        "answers": ["England", "Kanada", "Frankreich"],
+        "correct": 3
+    },
+    {
+        "text":"Wie viele Elemente gibt es im Periodensystem?",
+        "answers": ["112", "116", "118"],
+        "correct": 3
+    },
+    {
+        "text":"Wie heisst das neuste Album von Taylor Swift?",
+        "answers": ["The Tortured Poets Department", "Midnights", "The Life of a Showgirl"],
+        "correct": 3
+    },
+    {
+        "text":"Wie lange würde es durchschnittlich dauern, bis eine Glasflasche zersetzt ist?",
+        "answers": ["100 Jahre", "4000 Jahre", "80000 Jahre"],
+        "correct": 2
+    },
+    {
+        "text":"Wie heisst der sehr erfolgreiche Schaffhauser Eiskunstläufer?",
+        "answers": ["Marco Kern", "Lukas Britschgi", "Tim Schläpfer"],
+        "correct": 2
+    },
+    {
+        "text":"Was ist auf dem Dorf-Wappen von Siblingen zu sehen?",
+        "answers": ["Ein Stier", "Eine Pflugschar und eine Sichel", "eine Tanne"],
+        "correct": 3
+    },
+    {
+        "text":"Wie viele Einwohner hatte Beringen (inkl. Guntmadingen) 2025?",
+        "answers": ["4555", "5103", "5402"],
+        "correct": 3
+    },
+    {
+        "text":"Wie viele Einwohner hat die Gemeinde Buch, die kleinste im Kanton SH?",
+        "answers": ["336", "423", "498"],
+        "correct": 1
+    },
+    {
+        "text":"Wie viele Stunden hat der Volg Löhningen normalerweise geöffnet?",
+        "answers": ["13", "14", "15"],
+        "correct": 3
+    },
+    {
+        "text":"Seit wann gehört Schaffhausen zur Schweiz?",
+        "answers": ["1291", "1501", "1648"],
+        "correct": 2
     }
 ]
