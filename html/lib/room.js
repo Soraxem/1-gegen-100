@@ -200,13 +200,29 @@ async function handleMessage(event) {
             console.log("End Round");
 
             const json_scores = await fetch("/api/room/" + room + "/user-scores");
-            scores = await json_scores.json();
+            const scores = await json_scores.json();
 
+            const usersContainer = document.querySelector("#users");
+
+            // 1. Update the scores in the DOM first
             for (const [user, score] of Object.entries(scores)) {
-                console.log(`${user}: ${score}`);
-                user_entry = document.querySelector("#users #user-" + user);
-                user_entry.querySelector(".user-score").textContent = score;
+                const userEntry = usersContainer.querySelector("#user-" + user);
+                if (userEntry) {
+                    userEntry.querySelector(".user-score").textContent = score;
+                }
             }
+
+            // 2. Sort the entries
+            const userElements = Array.from(usersContainer.children);
+
+            userElements.sort((a, b) => {
+                const scoreA = parseInt(a.querySelector(".user-score").textContent) || 0;
+                const scoreB = parseInt(b.querySelector(".user-score").textContent) || 0;
+                return scoreB - scoreA; // Descending order (highest score first)
+            });
+
+            // 3. Re-append them to the container to reflect the new order
+            userElements.forEach(el => usersContainer.appendChild(el));
 
             show_screen(Screens.Room);
             break;
