@@ -91,33 +91,6 @@ button {
 }
 
 
-/* User Highlights */
-
-.user-score {
-  font-family: var(--font-primary);
-  color: var(--color-orange-l);
-}
-
-.user-out {
-  color: rgb(95, 95, 95);
-}
-
-.user-wrong {
-  background-color: rgb(179, 1, 1);
-}
-
-.user-correct {
-  background-color: rgb(1, 179, 1);
-}
-
-#selected-player {
-  font-family: var(--font-secondary);
-  font-size: var(--text-lg);
-  text-transform: uppercase;
-  color: var(--color-light);
-  margin-top: 40px;
-  margin-bottom: 40px;
-}
 
 /*ELEMENTS*/
 
@@ -282,6 +255,35 @@ button {
   text-align: center;
 }
 
+/* User Highlights */
+
+.user-score {
+  font-family: var(--font-primary);
+  color: var(--color-orange-l);
+}
+
+.user-out {
+  color: rgb(95, 95, 95);
+}
+
+.user-wrong {
+  background-color: rgb(179, 1, 1);
+}
+
+.user-correct {
+  background-color: rgb(1, 179, 1);
+}
+
+#selected-player {
+  font-family: var(--font-secondary);
+  font-size: var(--text-lg);
+  text-transform: uppercase;
+  color: var(--color-light);
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+
 #loading {
   color: var(--color-light);
   justify-content: center;
@@ -354,7 +356,7 @@ button {
 #question-time {
   color: var(--color-orange-l);
   justify-self: center;
-  font-size: var(--text-md);
+  font-size: var(--text-lg);
 }
 
 .answer-options {
