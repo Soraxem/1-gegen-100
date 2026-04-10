@@ -368,14 +368,17 @@ fn question(state: &State<AppState>, room_id: String) -> String {
     let player_start_time = end_time;
     let player_end_time = end_time + 32;
 
+    // Put together question object for the server
     let question = Question {
         text: question.text,
         answers: question.answers,
         correct: question.correct,
-        start_time,
-        end_time,
-        player_start_time,
-        player_end_time
+
+        // Adding seconds as leeway for wrong timed devices
+        start_time: start_time - 1,
+        end_time: end_time + 2,
+        player_start_time: player_start_time - 1,
+        player_end_time: player_end_time + 2
     };
 
     // Save the question
