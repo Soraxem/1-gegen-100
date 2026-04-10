@@ -393,6 +393,8 @@ button {
 #evaluated-question {
   color: var(--color-light);
   font-size: var(--text-lg);
+  text-align: center;
+  padding: 12px;
 }
 
 .navigate-round {
