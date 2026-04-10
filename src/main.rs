@@ -311,6 +311,8 @@ fn start_round(state: &State<AppState>, room_id: String) -> String {
                 }
             });
 
+            let contestant_ids = read_room_field(state, &room_id, |r| r.contestants.iter().map(|c| c.id.clone()).collect()).unwrap();
+
             if let Some(Some(player)) = read_room_field(state, &room_id, |r| r.player.clone()) {
 
                 // Display the selected Player upfront
@@ -323,6 +325,12 @@ fn start_round(state: &State<AppState>, room_id: String) -> String {
                 let _ = state.player_events.send(PlayerEvent {
                     player_ids: vec![player.id],
                     kind: PlayerEventKind::Screen { screen: PlayerScreens::YouGotSelected },
+                });
+
+                // Display the selected Player that they got selected
+                let _ = state.player_events.send(PlayerEvent {
+                    player_ids: contestant_ids,
+                    kind: PlayerEventKind::Screen { screen: PlayerScreens::In },
                 });
 
             } else {

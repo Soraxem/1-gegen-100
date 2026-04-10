@@ -11,6 +11,9 @@ async function update_player() {
     }
 
     let response = await fetch("/api/player/set-username/" + username + "?room=" + room);
+
+    show_screen(Screens.Room)
+
 }
 
 
@@ -19,6 +22,7 @@ const urlParams = new URLSearchParams(window.location.search);
 const room = urlParams.get('room');
 
 document.getElementById("room").textContent = "Room: " + room;
+document.getElementById("room-nick").textContent = "Joining Room: " + room;
 
 // Enum of all screens
 const Screens = Object.freeze({
@@ -31,6 +35,7 @@ const Screens = Object.freeze({
     Wrong: "screen-wrong",
     Loading: "loading",
     Room: "screen-room",
+    Nickname: "screen-nickname",
 });
 
 function show_screen(screen) {
@@ -46,7 +51,7 @@ function is_screen_visible(screen) {
     return document.getElementById(screen).classList.contains("visible");
 }
 
-show_screen(Screens.Room);
+show_screen(Screens.Nickname);
 
 function get_unix_time() {
     return new Date().getTime() / 1000;
