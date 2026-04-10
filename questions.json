@@ -10,7 +10,7 @@
         "correct": 3
     },
     {
-        "text":"Was machen nicht nur Architekten beim Autofahren?",
+        "text":"Was machen Architekten beim handgeschalten Autofahren?",
         "answers": ["gewölbe", "säulen", "kuppeln"],
         "correct": 3
     },
@@ -20,7 +20,7 @@
         "correct": 3
     },
     {
-        "text":"Was wird in die Kategorien initialis, superficialis, media, profunda und sicca unterschieden?",
+        "text":"Was wird medizinisch in die Kategorien initialis, superficialis, media, profunda und sicca unterschieden?",
         "answers": ["Karies", "Sonnenbrand", "Durchfall"],
         "correct": 1
     },
@@ -66,7 +66,7 @@
     },
     {
         "text":"In welchem Jahr startete der Erste Weltkrieg?",
-        "answers": ["1910", "1914", "1918"],
+        "answers": ["1939", "1914", "1918"],
         "correct": 2
     },
     {
@@ -113,5 +113,185 @@
         "text":"Auf dem Schwabentor steht: Lappi ____ d'Augen uf",
         "answers": ["tuen", "mach", "tue"],
         "correct": 3
+    },
+    {
+        "text":"Welche Gemeinde gehört zum unteren Kantonsteil von Schaffhausen?",
+        "answers": ["Buchberg", "Buch", "Hemishofen"],
+        "correct": 1
+    },
+    {
+        "text":"Wann wurde die Junge Kirche Klettgau offiziell gegründet?",
+        "answers": ["17.Juni 2021", "27.Juli 2020", "8.Mai 2022"],
+        "correct": 1
+    },
+    {
+        "text":"Welches dieser Märchen beginnt NICHT mit Es war einmal...?",
+        "answers": ["Rumpelstilzchen", "Hans im Glück", "Rotkäppchen"],
+        "correct": 2
+    },
+    {
+        "text":"Wie viele Quadrat-Dezimeter hat ein Quadratmeter?",
+        "answers": ["10", "100", "1000"],
+        "correct": 2
+    },
+    {
+        "text":"Welche dieser Pflanzen ist eine fleischfressende?",
+        "answers": ["Fingerhut", "Rittersporn", "Sonnentau"],
+        "correct": 3
+    },
+    {
+        "text":"Bloody Mary = Tomatensaft + Zitronensaft + ...?",
+        "answers": ["Rum", "Wodka", "Whiskey"],
+        "correct": 2
+    },
+    {
+        "text":"Chlorophyll ist auch bekannt als?",
+        "answers": ["Fruchtgelb", "Blütenweiss", "Blattgrün"],
+        "correct": 3
+    },
+    {
+        "text":"Welches sind keine Nudeln?",
+        "answers": ["Farfalle", "Calzone", "Rigatoni"],
+        "correct": 2
+    },
+    {
+        "text":"Auf welchem Kontinent gibt es in der Natur keine Hummeln?",
+        "answers": ["Amerika", "Afrika", "Australien"],
+        "correct": 3
+    },
+    {
+        "text":"Welcher Kuchen wird aus Kartoffel gemacht?",
+        "answers": ["Marmorkuchen", "Reibekuchen", "Lebkuchen"],
+        "correct": 2
+    },
+    {
+        "text":"Von welchen dieser Tiere gibt es am meisten in freier Wildbahn?",
+        "answers": ["Löwen", "Elefanten", "Giraffen"],
+        "correct": 2
+    },
+    {
+        "text":"Welcher dieser Staaten hat direkte Landesgrenzen mit MEHR als einem anderen Staat?",
+        "answers": ["Kanada", "Norwegen", "Südkorea"],
+        "correct": 2
+    },
+    {
+        "text":"Welche Tiere benutzte Hannibal bei seinem Feldzug über die Alpen?",
+        "answers": ["Elefanten", "Nashörner", "Rinder"],
+        "correct": 1
+    },
+    {
+        "text":"Was beginnt mit den Worten: Oh say, can you see?",
+        "answers": ["Hamlet", "Love Me Do von den Beatles", "US-Nationalhymne"],
+        "correct": 1
+    },
+    {
+        "text":"Wer besiegte 1187 die Kreuzritter und eroberte Jerusalem?",
+        "answers": ["Sandokan", "Saladin", "Süleyman"],
+        "correct": 2
+    },
+    {
+        "text":"Wer spielte in mehr als 30 Kinofilmen mit?",
+        "answers": ["Elvis Presley", "Paul McCartney", "Elton John"],
+        "correct": 1
+    },
+    {
+        "text":"Wobei handelt es sich NICHT um eine musikalische Tempo-Vorschrift?",
+        "answers": ["andante", "allegro", "algarve"],
+        "correct": 3
+    },
+    {
+        "text":"Was macht der Platzwart in seinem Beruf?",
+        "answers": ["an der Tube schnüffeln", "ein paar Linien ziehen", "sich ne Tüte drehen"],
+        "correct": 2
+    },
+    {
+        "text":"Was kann schwimmen, aber nicht fliegen?",
+        "answers": ["Stockenten", "Krickenten", "Studenten"],
+        "correct": 3
+    },
+    {
+        "text":"Was bedeutet der Name Tiramisu wörtlich?",
+        "answers": ["süss und köstlich", "das macht dick", "zieh mich hoch"],
+        "correct": 3
+    },
+    {
+        "text":"Welchen Jahrgang hat Martin?",
+        "answers": ["1990", "1993", "1996"],
+        "correct": 1
+    },
+    {
+        "text":"Wobei handelt es sich um ein Notsignal im internationalen Flugverkehr?",
+        "answers": ["Mayday", "Jetset", "Yippies"],
+        "correct": 1
+    },
+    {
+        "text":"Was ist die Amtssprache von Mexiko?",
+        "answers": ["Portugiesisch", "Spanisch", "Französisch"],
+        "correct": 2
+    },
+    {
+        "text":"Wo befindet sich der Hauptsitz der EU?",
+        "answers": ["Hannover", "Helsinki", "Brüssel"],
+        "correct": 3
+    },
+    {
+        "text":"Wie viele Quadratkilometer hat der Kanton Schaffhausen?",
+        "answers": ["154", "298", "456"],
+        "correct": 2
+    },
+    {
+        "text":"Wie lange ist der Rhein?",
+        "answers": ["1233 km", "1823 km", "2206 km"],
+        "correct": 1
+    },
+    {
+        "text":"Wie viele Moscheen gibt es in der Schweiz?",
+        "answers": ["110", "260", "309"],
+        "correct": 2
+    },
+    {
+        "text":"Welches Land liegt nicht am Mittelmeer?",
+        "answers": ["Montenegro", "Albanien", "Mazedonien"],
+        "correct": 3
+    },
+    {
+        "text":"Welches Gericht bekommt man in keinem traditionellen japanischen Restaurant?",
+        "answers": ["Saganaki", "Nigiri", "Yakitori"],
+        "correct": 1
+    },
+    {
+        "text":"Der Duden definiert frittieren als: braten in ...?",
+        "answers": ["schwimmendem Fett", "tauchendem Öl", "segelnder Butter"],
+        "correct": 1
+    },
+    {
+        "text":"von der deutschen Art spricht man in einem türkischen Restaurant, wenn ...?",
+        "answers": ["Reste auf dem Teller liegen", "nur Wasser getrunken wird", "die Gäste getrennt bezahlen"],
+        "correct": 3
+    },
+    {
+        "text":"Mit welchem Auftrag wäre wohl auch der beste Kochlehrling verständlicherweise überfordert?",
+        "answers": ["Panier Mehl!", "Brat Kartoffeln!", "Rühr Eier!"],
+        "correct": 1
+    },
+    {
+        "text":"Welche dieser Inseln gehört zu Frankreich?",
+        "answers": ["Elba", "Korsika", "Ibiza"],
+        "correct": 2
+    },
+    {
+        "text":"Wie weit ist die Strecke vom Mesmerhaus zum Volg?",
+        "answers": ["410m", "355m", "290m"],
+        "correct": 3
+    },
+    {
+        "text":"In welchem Jahr wurde die Kirche Löhningen gebaut?",
+        "answers": ["1446", "1535", "1606"],
+        "correct": 3
+    },
+    {
+        "text":"In welchem Gegenstand ist das Metall, das ihm seinen Namen gibt, gar nicht enthalten?",
+        "answers": ["Zinnsoldat", "Alufolie", "Bleistift"],
+        "correct": 1
     }
 ]
