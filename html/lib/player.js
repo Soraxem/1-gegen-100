@@ -5,6 +5,11 @@ async function update_player() {
         return false;
     }
 
+    if (username.length > 16) {
+        alert("Max 16 Letters as Username");
+        return false;
+    }
+
     let response = await fetch("/api/player/set-username/" + username + "?room=" + room);
 }
 
@@ -73,6 +78,13 @@ async function handleMessage(event) {
         case "Question":
 
             show_screen(Screens.Loading);
+
+
+            document.getElementById("question").textContent = data.Question.text;
+            
+            for (let i = 0; i < 3; i++) {
+                document.getElementById("answer-" + (i + 1)).textContent = data.Question.answers[i];
+            }
 
             const answers = document.querySelectorAll(".answer");
             answers.forEach(answer => answer.classList.remove("active"));

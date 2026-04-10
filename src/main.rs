@@ -349,7 +349,7 @@ fn question(state: &State<AppState>, room_id: String) -> String {
     }
     */
 
-    // Random Question Fetching
+    // Pseudeo random Question Fetching
     let question = new_question(state, room_id.clone()).unwrap();
 
     // Save the question
@@ -404,6 +404,8 @@ fn question(state: &State<AppState>, room_id: String) -> String {
     let _ = state.player_events.send(PlayerEvent {
         player_ids: contestants.iter().map(|c| c.id.clone()).collect(),
         kind: PlayerEventKind::Question {
+            text: question.text.clone(),
+            answers: question.answers.clone(),
             from: start_time,
             to: end_time
         },
@@ -420,6 +422,8 @@ fn question(state: &State<AppState>, room_id: String) -> String {
     let _ = state.player_events.send(PlayerEvent {
         player_ids: vec![player.unwrap().id],
         kind: PlayerEventKind::Question {
+            text: question.text.clone(),
+            answers: question.answers.clone(),
             from: player_start_time,
             to: player_end_time
         }
@@ -848,6 +852,8 @@ struct PlayerEvent {
 #[derive(Serialize, Deserialize, Clone, Debug)]
 enum PlayerEventKind {
     Question {
+        text: String,
+        answers: [String; 3],
         from: u64,
         to: u64,
     },
