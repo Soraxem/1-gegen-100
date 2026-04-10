@@ -93,19 +93,9 @@ button {
 
 /* User Highlights */
 
-.user {
-  color: var(--color-light);
-  background-color: var(--color-dark);
-
-  padding: 4px 16px 4px 16px;
-  border-radius: 12px;
-  margin-bottom: 4px;
-
-  font-family: var(--font-secondary);
-  font-size: var(--text-md);
-  text-transform: uppercase;
-  text-align: center;
-
+.user-score {
+  font-family: var(--font-primary);
+  color: var(--color-orange-l);
 }
 
 .user-out {
@@ -257,6 +247,39 @@ button {
 
 #screen-login {
   background-color: var(--color-bg);
+}
+
+#screen-room {
+  justify-content: center;
+  align-items: center;
+}
+
+#users {
+  flex: 1;
+  overflow-y: scroll;
+  min-height: 0;
+  margin-top: 40px;
+  margin-bottom: 40px;
+
+}
+
+.user-entry {
+  color: var(--color-light);
+  background-color: var(--color-dark);
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  width: 320px;
+  padding: 4px 16px 4px 16px;
+  border-radius: 12px;
+  margin-bottom: 4px;
+
+  font-family: var(--font-secondary);
+  font-size: var(--text-md);
+  text-transform: uppercase;
+  text-align: center;
 }
 
 #loading {
