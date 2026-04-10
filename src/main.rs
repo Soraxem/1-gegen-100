@@ -54,6 +54,9 @@ struct Room {
     users: Vec<User>,
 
     questions: Vec<JsonQuestion>,
+
+    // All users that havnt been selected before
+    selected: Vec<String>,
 }
 
 // Default values for room on creation
@@ -67,6 +70,7 @@ impl Default for Room {
             player:None,
             users: Vec::new(),
             questions: fetch_questions(),
+            selected: Vec::new(),
         }
     }
 }
@@ -281,28 +285,51 @@ fn start_round(state: &State<AppState>, room_id: String) -> String {
                 return "not_enough_players".to_string();
             }
 
-            // ToDo make selection pseudo random, so that everybody gets a turn
-            let random_index = rand::random_range(0..contestants.len());
-            let player = contestants.swap_remove(random_index);
+            let selection_successfull = update_room_field(state, &room_id, |room| {
 
-            // Save the Selected Player
-            update_room_field(state, &room_id, |r| r.player = Some(player.clone()));
-            // Save the remaning contestants
-            update_room_field(state, &room_id, |r| r.contestants = contestants);
-            // Change the room state
-            update_room_field(state, &room_id, |r| r.state = RoomState::PlayerSelection);
+                println!("Trying selection");
 
-            // Display the selected Player upfront
-            let _ = state.room_events.send(RoomEvent {
-                room_id: room_id.clone(),
-                kind: RoomEventKind::PlayerSelected { user: player.clone() },
+                // If everyone was selected once, refill the list
+                if room.selected.is_empty() {
+                    room.selected = room.users.iter().map(|u| u.id.clone()).collect();
+                }
+
+                // Select a random user
+                let random_index = rand::random_range(0..room.selected.len());
+                let selected_id = room.selected.swap_remove(random_index);
+
+                // Fill the contestants
+                room.contestants = room.users.clone();
+
+                // Select a player
+                if let Some(index) = room.contestants.iter().position(|u| u.id == selected_id) {
+
+                    let player = room.contestants.swap_remove(index);
+
+                    room.player = Some(player);
+                    room.state = RoomState::PlayerSelection;
+                }
             });
 
-            // Display the selected Player that they got selected
-            let _ = state.player_events.send(PlayerEvent {
-                player_ids: vec![player.id],
-                kind: PlayerEventKind::Screen { screen: PlayerScreens::YouGotSelected },
-            });
+            if let Some(Some(player)) = read_room_field(state, &room_id, |r| r.player.clone()) {
+
+                // Display the selected Player upfront
+                let _ = state.room_events.send(RoomEvent {
+                    room_id: room_id.clone(),
+                    kind: RoomEventKind::PlayerSelected { user: player.clone() },
+                });
+
+                // Display the selected Player that they got selected
+                let _ = state.player_events.send(PlayerEvent {
+                    player_ids: vec![player.id],
+                    kind: PlayerEventKind::Screen { screen: PlayerScreens::YouGotSelected },
+                });
+
+            } else {
+                return "Player Selection Failed!".to_string();
+            }
+
+            
         },
         None => return "error".to_string(),
     }
@@ -710,7 +737,11 @@ fn join_room(state: &State<AppState>, user: User, room_id: String) -> EventStrea
     let found = read_room_field(state, &room_id, |r| r.users.iter().any(|u| u.id == user.id));
 
     if !(found == Some(true)) {
+        // On Join
         update_room_field(state, &room_id, |r| r.users.push(user.clone()));
+        update_room_field(state, &room_id, |r| r.selected.push(user.id.clone()));
+    } else {
+        // On Rejoin
     }
 
     let _ = state.room_events.send(RoomEvent {
