@@ -50,10 +50,15 @@ struct Room {
     contestants: Vec<User>,
     // The player everyone is competing against
     player: Option<User>,
+
+    player_lost: bool,
+
     // Everyone in the room
     users: Vec<User>,
 
     questions: Vec<JsonQuestion>,
+
+    scores: HashMap<String, usize>,
 
     // All users that havnt been selected before
     selected: Vec<String>,
@@ -68,8 +73,10 @@ impl Default for Room {
             answers: HashMap::new(),
             contestants: Vec::new(),
             player:None,
+            player_lost: false,
             users: Vec::new(),
             questions: fetch_questions(),
+            scores: HashMap::new(),
             selected: Vec::new(),
         }
     }
@@ -348,6 +355,15 @@ fn start_round(state: &State<AppState>, room_id: String) -> String {
 fn user_list(state: &State<AppState>, room_id: String) -> String {
 
     match read_room_field(state, &room_id, |r| r.users.clone()) {
+        Some(users) => serde_json::to_string(&users).unwrap(),
+        None => "error".to_string(),
+    }
+}
+
+#[get("/room/<room_id>/user-scores")]
+fn user_scores(state: &State<AppState>, room_id: String) -> String {
+
+    match read_room_field(state, &room_id, |r| r.scores.clone()) {
         Some(users) => serde_json::to_string(&users).unwrap(),
         None => "error".to_string(),
     }
@@ -705,13 +721,48 @@ fn evaluate_player(state: &State<AppState>, room_id: String) -> String {
         },
     });
 
+    update_room_field(state, &room_id, |r| r.player_lost = end_round);
+
     "ok".to_string()
 }
 
 #[get("/room/<room_id>/end-round")]
 fn end_round(state: &State<AppState>, room_id: String) -> String {
 
-    // ToDo Distribute Points
+    // ToDo Distribute Scores
+
+    update_room_field(state, &room_id, |room| {
+
+        
+        // Player Points
+        if room.player_lost {
+            // Player recieves no points
+        } else {
+            let player_id = room.player.clone().unwrap().id;
+
+            for user in room.users.clone() {
+                // Is user still a contestant?
+                if room.contestants.iter().any(|c| c.id == user.id) {
+                    // no Point
+                } else {
+                    // Increment for every beaten contestant
+                    match room.scores.get(&player_id) {
+                        Some(count) => { room.scores.insert(player_id.clone(), count + 1); }
+                        None => { room.scores.insert(player_id.clone(), 1); }
+                    }
+                }
+            }
+
+        }
+
+        for contestant in room.contestants.clone() {
+            // give points to the contestants
+            match room.scores.get(&contestant.id) {
+                Some(count) => { room.scores.insert(contestant.id, count + 1); }
+                None => { room.scores.insert(contestant.id, 1); }
+            }
+        }
+    });
 
     
     // Clean states for new round. Reset to Lobby
@@ -721,6 +772,7 @@ fn end_round(state: &State<AppState>, room_id: String) -> String {
     update_room_field(state, &room_id, |r| r.answers = HashMap::new());
 
     update_room_field(state, &room_id, |r| r.state = RoomState::Open);
+    update_room_field(state, &room_id, |r| r.player_lost = false);
 
     let _ = state.room_events.send(RoomEvent {
         room_id: room_id.clone(),
@@ -932,7 +984,7 @@ fn rocket() -> _ {
     let (room_tx, _room_rx) = broadcast::channel(1024);
 
     rocket::build()
-        .mount("/api", routes![manage_room, join_room, check_room, update_player_name, start_round, question, evaluate_contestants, evaluate_player, user_list, end_round, answer_question])
+        .mount("/api", routes![manage_room, join_room, check_room, update_player_name, start_round, question, evaluate_contestants, evaluate_player, user_list, end_round, answer_question, user_scores])
         .mount("/", FileServer::from(relative!("html")))
         .manage(AppState {
             tx,

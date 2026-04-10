@@ -52,15 +52,19 @@ function end_round() {
 
 function user_template(username, user_id, marker) {
     const userEntry = document.importNode(document.getElementById("user-entry").content, true);
-    userEntry.children[0].textContent = username;
-    userEntry.children[0].id = user_id;
-    userEntry.children[0].classList.add(marker);
+    
+    userEntry.querySelector(".user-entry").id = "user-" + user_id;
+    userEntry.querySelector(".user-entry").classList.add(marker);
+    userEntry.querySelector(".user").textContent = username;
+
     return userEntry;
 }
 
 function get_unix_time() {
     return new Date().getTime() / 1000;
 }
+
+let scores;
 
 // Handle Room Events
 async function handleMessage(event) {
@@ -84,28 +88,24 @@ async function handleMessage(event) {
         case "UserJoined":
 
             // Add the user to the list, if not already existing
-            existingEntry = document.getElementById(data.UserJoined.user.id);
+            existingEntry = document.querySelector("#users #user-" + data.UserJoined.user.id);
             if (!existingEntry) {
-                const userEntry = document.importNode(document.getElementById("user-entry").content, true);
-                userEntry.children[0].textContent = data.UserJoined.user.name;
-                userEntry.children[0].id = data.UserJoined.user.id;
+                const userEntry = user_template(data.UserJoined.user.name, data.UserJoined.user.id, "user-entry");
                 document.getElementById("users").appendChild(userEntry);
             } else {
-                existingEntry.textContent = data.UserJoined.user.name;
+                existingEntry.querySelector(".user").textContent = data.UserJoined.user.name;
             }
 
             break;
 
         case "UserUpdated":
             // Add the user to the list, if not already existing
-            existingEntry = document.getElementById(data.UserUpdated.user.id);
+            existingEntry = document.querySelector("#users #user-" + data.UserUpdated.user.id);
             if (!existingEntry) {
-                const userEntry = document.importNode(document.getElementById("user-entry").content, true);
-                userEntry.children[0].textContent = data.UserUpdated.user.name;
-                userEntry.children[0].id = data.UserUpdated.user.id;
+                const userEntry = user_template(data.UserJoined.user.name, data.UserJoined.user.id, "user-entry");
                 document.getElementById("users").appendChild(userEntry);
             } else {
-                existingEntry.textContent = data.UserUpdated.user.name;
+                existingEntry.querySelector(".user").textContent = data.UserUpdated.user.name;
             }
             break;
 
@@ -198,6 +198,16 @@ async function handleMessage(event) {
         
         case "EndRound":
             console.log("End Round");
+
+            const json_scores = await fetch("/api/room/" + room + "/user-scores");
+            scores = await json_scores.json();
+
+            for (const [user, score] of Object.entries(scores)) {
+                console.log(`${user}: ${score}`);
+                user_entry = document.querySelector("#users #user-" + user);
+                user_entry.querySelector(".user-score").textContent = score;
+            }
+
             show_screen(Screens.Room);
             break;
 
