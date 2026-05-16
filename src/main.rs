@@ -412,12 +412,12 @@ fn question(state: &State<AppState>, room_id: String) -> String {
     let start_time = SystemTime::now()
         .duration_since(SystemTime::UNIX_EPOCH)
         .unwrap()
-        .as_secs() + 4;
+        .as_secs() + 15;
     
-    let end_time = start_time + 12;
+    let end_time = start_time + 18;
 
     let player_start_time = end_time;
-    let player_end_time = end_time + 32;
+    let player_end_time = end_time + 40;
 
     // Put together question object for the server
     let question = Question {
@@ -426,10 +426,10 @@ fn question(state: &State<AppState>, room_id: String) -> String {
         correct: question.correct,
 
         // Adding seconds as leeway for wrong timed devices
-        start_time: start_time - 1,
-        end_time: end_time + 2,
-        player_start_time: player_start_time - 1,
-        player_end_time: player_end_time + 2
+        start_time: start_time - 2,
+        end_time: end_time + 5,
+        player_start_time: player_start_time - 2,
+        player_end_time: player_end_time + 5
     };
 
     // Save the question
