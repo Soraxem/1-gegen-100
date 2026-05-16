@@ -1,0 +1,482 @@
+[
+    {
+        "text":"Präteritum von: ich niese",
+        "answers": ["ich noss", "ich nieste", "ich nass"],
+        "correct": 2
+    },
+    {
+        "text":"Perfekt-Zeitform von: ich darf",
+        "answers": ["ich habe gedürft", "ich habe gedarft", "ich habe gedurft"],
+        "correct": 3
+    },
+    {
+        "text":"Was machen Architekten beim handgeschaltenen Autofahren?",
+        "answers": ["gewölbe", "säulen", "kuppeln"],
+        "correct": 3
+    },
+    {
+        "text":"Wie man durch seinen Englischen Namen erahnen kann, hat der Rosenkohl seinen Ursprung in der Gegend von ...",
+        "answers": ["Prag", "Kassel", "Brüssel"],
+        "correct": 3
+    },
+    {
+        "text":"Was wird medizinisch in die Kategorien initialis, superficialis, media, profunda und sicca unterschieden?",
+        "answers": ["Karies", "Sonnenbrand", "Durchfall"],
+        "correct": 1
+    },
+    {
+        "text":"Welches ist der einzige Fussballverein, der bereits die Champions League, die Europa League und die Conference League gewonnen hat?",
+        "answers": ["Real Madrid", "FC Chelsea", "Inter Mailand"],
+        "correct": 2
+    },
+    {
+        "text":"Das Meer oder die Seefahrt betreffend - oder kurz:",
+        "answers": ["narim", "mautisch", "maritim"],
+        "correct": 3
+    },
+    {
+        "text":"Man kann etwas erringen, durchdrücken oder ...",
+        "answers": ["erstfahren", "erstfliegen", "erstreiten"],
+        "correct": 3
+    },
+    {
+        "text":"Welches ist die Hauptstadt von Indien?",
+        "answers": ["Neu Dehli", "Mumbai", "Kolkata"],
+        "correct": 1
+    },
+    {
+        "text":"Wie heisst die japanische Währung?",
+        "answers": ["Yen", "Ying", "Yangtse"],
+        "correct": 1
+    },
+    {
+        "text":"Wie viele Sterne sind auf der Flagge Neuseelands zu sehen?",
+        "answers": ["fünf", "vier", "sieben"],
+        "correct": 2
+    },
+    {
+        "text":"Welches Tier hat drei Herzen?",
+        "answers": ["Wal", "Oktopus", "Chamäleon"],
+        "correct": 2
+    },
+    {
+        "text":"Welches ist der flächenmässig grösste Kontinent?",
+        "answers": ["Nordamerika", "Asien", "Afrika"],
+        "correct": 2
+    },
+    {
+        "text":"In welchem Jahr startete der Erste Weltkrieg?",
+        "answers": ["1939", "1914", "1918"],
+        "correct": 2
+    },
+    {
+        "text":"In welchem Jahr war der Mauerfall in Deutschland?",
+        "answers": ["1989", "1990", "1991"],
+        "correct": 1
+    },
+    {
+        "text":"Welches dieser Tiere ist ein Säugetier?",
+        "answers": ["Adler", "Hai", "Delfin"],
+        "correct": 3
+    },
+    {
+        "text":"Welcher dieser Flüsse fliesst durch Budapest?",
+        "answers": ["Dnepr", "Inn", "Donau"],
+        "correct": 3
+    },
+    {
+        "text":"Welches Teilchen ist negativ geladen?",
+        "answers": ["Proton", "Elektron", "Neutron"],
+        "correct": 2
+    },
+    {
+        "text":"Welches Gas atmen wir hauptsächlich ein?",
+        "answers": ["Kohlenstoffdioxid CO2", "Stickstoff", "Sauerstoff"],
+        "correct": 2
+    },
+    {
+        "text":"Welches Organ im Mensch produziert Galle?",
+        "answers": ["Leber", "Milz", "Magen"],
+        "correct": 1
+    },
+    {
+        "text":"Welche Ortschaft liegt nördlich von Merishausen?",
+        "answers": ["Bargen", "Beggingen", "Büttenhardt"],
+        "correct": 1
+    },
+    {
+        "text":"Welche Nation gewann die Fussball-Weltmeisterschaft der Männer 2010?",
+        "answers": ["Spanien", "Deutschland", "Frankreich"],
+        "correct": 1
+    },
+    {
+        "text":"Auf dem Schwabentor steht: Lappi ____ d'Augen uf",
+        "answers": ["tuen", "mach", "tue"],
+        "correct": 3
+    },
+    {
+        "text":"Welche Gemeinde gehört zum unteren Kantonsteil von Schaffhausen?",
+        "answers": ["Buchberg", "Buch", "Hemishofen"],
+        "correct": 1
+    },
+    {
+        "text":"Wann wurde die Junge Kirche Klettgau offiziell gegründet?",
+        "answers": ["17.Juni 2021", "27.Juli 2020", "8.Mai 2022"],
+        "correct": 1
+    },
+    {
+        "text":"Welches dieser Märchen beginnt NICHT mit Es war einmal...?",
+        "answers": ["Rumpelstilzchen", "Hans im Glück", "Rotkäppchen"],
+        "correct": 2
+    },
+    {
+        "text":"Wie viele Quadrat-Dezimeter hat ein Quadrat-Meter?",
+        "answers": ["10", "100", "1000"],
+        "correct": 2
+    },
+    {
+        "text":"Welche dieser Pflanzen ist eine fleischfressende?",
+        "answers": ["Fingerhut", "Rittersporn", "Sonnentau"],
+        "correct": 3
+    },
+    {
+        "text":"Bloody Mary = Tomatensaft + Zitronensaft + ...?",
+        "answers": ["Rum", "Wodka", "Whiskey"],
+        "correct": 2
+    },
+    {
+        "text":"Chlorophyll ist auch bekannt als?",
+        "answers": ["Fruchtgelb", "Blütenweiss", "Blattgrün"],
+        "correct": 3
+    },
+    {
+        "text":"Welches sind keine Nudeln?",
+        "answers": ["Farfalle", "Calzone", "Rigatoni"],
+        "correct": 2
+    },
+    {
+        "text":"Auf welchem Kontinent gibt es in der Natur keine Hummeln?",
+        "answers": ["Amerika", "Afrika", "Australien"],
+        "correct": 3
+    },
+    {
+        "text":"Welcher Kuchen wird aus Kartoffel gemacht?",
+        "answers": ["Marmorkuchen", "Reibekuchen", "Lebkuchen"],
+        "correct": 2
+    },
+    {
+        "text":"Von welchen dieser Tiere gibt es am meisten in freier Wildbahn?",
+        "answers": ["Löwen", "Elefanten", "Giraffen"],
+        "correct": 2
+    },
+    {
+        "text":"Welcher dieser Staaten hat direkte Landesgrenzen mit MEHR als einem anderen Staat?",
+        "answers": ["Kanada", "Norwegen", "Südkorea"],
+        "correct": 2
+    },
+    {
+        "text":"Welche Tiere benutzte Hannibal bei seinem Feldzug über die Alpen?",
+        "answers": ["Elefanten", "Nashörner", "Ochsen"],
+        "correct": 1
+    },
+    {
+        "text":"Was beginnt mit den Worten: Oh say, can you see?",
+        "answers": ["Hamlet", "Love Me Do von den Beatles", "US-Nationalhymne"],
+        "correct": 3
+    },
+    {
+        "text":"Wer besiegte 1187 die Kreuzritter und eroberte Jerusalem?",
+        "answers": ["Sandokan", "Saladin", "Süleyman"],
+        "correct": 2
+    },
+    {
+        "text":"Wer spielte in mehr als 30 Kinofilmen mit?",
+        "answers": ["Elvis Presley", "Paul McCartney", "Elton John"],
+        "correct": 1
+    },
+    {
+        "text":"Wobei handelt es sich NICHT um eine musikalische Tempo-Vorschrift?",
+        "answers": ["andante", "allegro", "algarve"],
+        "correct": 3
+    },
+    {
+        "text":"Was macht ein Platzwart in seinem Beruf?",
+        "answers": ["an der Tube schnüffeln", "ein paar Linien ziehen", "sich ne Tüte drehen"],
+        "correct": 2
+    },
+    {
+        "text":"Was kann schwimmen, aber nicht fliegen?",
+        "answers": ["Stockenten", "Krickenten", "Studenten"],
+        "correct": 3
+    },
+    {
+        "text":"Was bedeutet der Name Tiramisu wörtlich?",
+        "answers": ["süss und köstlich", "das macht dick", "zieh mich hoch"],
+        "correct": 3
+    },
+    {
+        "text":"Welchen Jahrgang hat Martin?",
+        "answers": ["1988", "1990", "1993"],
+        "correct": 2
+    },
+    {
+        "text":"Wobei handelt es sich um ein Notsignal im internationalen Flugverkehr?",
+        "answers": ["Mayday", "Jetset", "Yippies"],
+        "correct": 1
+    },
+    {
+        "text":"Was ist die Amtssprache von Mexiko?",
+        "answers": ["Portugiesisch", "Spanisch", "Französisch"],
+        "correct": 2
+    },
+    {
+        "text":"Wo befindet sich der Hauptsitz der EU?",
+        "answers": ["Hannover", "Helsinki", "Brüssel"],
+        "correct": 3
+    },
+    {
+        "text":"Wie viele Quadratkilometer hat der Kanton Schaffhausen?",
+        "answers": ["154", "298", "456"],
+        "correct": 2
+    },
+    {
+        "text":"Wie lange ist der Rhein?",
+        "answers": ["1233 km", "1823 km", "2206 km"],
+        "correct": 1
+    },
+    {
+        "text":"Wie viele Moscheen gibt es in der Schweiz?",
+        "answers": ["110", "260", "309"],
+        "correct": 2
+    },
+    {
+        "text":"Welches Land liegt nicht am Mittelmeer?",
+        "answers": ["Montenegro", "Albanien", "Mazedonien"],
+        "correct": 3
+    },
+    {
+        "text":"Welches Gericht bekommt man in keinem traditionellen japanischen Restaurant?",
+        "answers": ["Saganaki", "Nigiri", "Yakitori"],
+        "correct": 1
+    },
+    {
+        "text":"Der Duden definiert frittieren als: braten in ...?",
+        "answers": ["schwimmendem Fett", "tauchendem Öl", "segelnder Butter"],
+        "correct": 1
+    },
+    {
+        "text":"von der deutschen Art spricht man in einem türkischen Restaurant, wenn ...?",
+        "answers": ["Reste auf dem Teller liegen", "nur Wasser getrunken wird", "die Gäste getrennt bezahlen"],
+        "correct": 3
+    },
+    {
+        "text":"Mit welchem Auftrag wäre wohl auch der beste Kochlehrling verständlicherweise überfordert?",
+        "answers": ["Panier Mehl!", "Brat Kartoffeln!", "Rühr Eier!"],
+        "correct": 1
+    },
+    {
+        "text":"Welche dieser Inseln gehört zu Frankreich?",
+        "answers": ["Elba", "Korsika", "Ibiza"],
+        "correct": 2
+    },
+    {
+        "text":"Wie weit ist die Strecke vom Mesmerhaus zum Volg Löhningen?",
+        "answers": ["410m", "355m", "290m"],
+        "correct": 3
+    },
+    {
+        "text":"In welchem Jahr wurde die Kirche Löhningen gebaut?",
+        "answers": ["1446", "1535", "1606"],
+        "correct": 3
+    },
+    {
+        "text":"In welchem Gegenstand ist das Metall, das ihm seinen Namen gibt, gar nicht enthalten?",
+        "answers": ["Zinnsoldat", "Alufolie", "Bleistift"],
+        "correct": 3
+    },
+    {
+        "text":"Welches ist der wahrscheinlich älteste Brief im Neuen Testament?",
+        "answers": ["1.Timotheus", "1.Korinther", "1.Thessalonicher"],
+        "correct": 3
+    },
+    {
+        "text":"Welches ist der wahrscheinlich jüngste Brief im Neuen Testament?",
+        "answers": ["2.Petrus", "2.Korinther", "2.Timotheus"],
+        "correct": 1
+    },
+    {
+        "text":"Welches ist das letzte Buch im Alten Testament?",
+        "answers": ["Haggai", "Maleachi", "Sacharja"],
+        "correct": 2
+    },
+    {
+        "text":"Wie viele Insta-Follower hatte der JG-Account heute morgen?",
+        "answers": ["87", "110", "194"],
+        "correct": 2
+    },
+    {
+        "text":"Wie viele Insta-Follower hatte der TC Chläggi Account heute morgen?",
+        "answers": ["93", "132", "173"],
+        "correct": 3
+    },
+    {
+        "text":"Wie viele Beiträge hat der Insta-Account der JKK bereits gepostet?",
+        "answers": ["174", "243", "324"],
+        "correct": 1
+    },
+    {
+        "text":"Wie viele Haupt- und Nebenfrauen hatte König Salomo insgesamt?",
+        "answers": ["700", "900", "1000"],
+        "correct": 3
+    },
+    {
+        "text":"Welche Figur aus der Sesamstrasse besitzt ein blaues Fell?",
+        "answers": ["Elmo", "Ernie", "Krümelmonster"],
+        "correct": 3
+    },
+    {
+        "text":"Welches dieser Tiere hält Winterschlaf?",
+        "answers": ["Damhirsch", "Wildschwein", "Murmeltier"],
+        "correct": 3
+    },
+    {
+        "text":"Wie heisst die Hauptstadt von Deutschland?",
+        "answers": ["München", "Berlin", "Hamburg"],
+        "correct": 2
+    },
+    {
+        "text":"Welcher Superheld heisst mit bürgerlichem Namen: Bruce Wayne?",
+        "answers": ["Superman", "Iron Man", "Batman"],
+        "correct": 3
+    },
+    {
+        "text":"Welches Säugetier hat die meisten Zähne im gesamten Tierreich?",
+        "answers": ["Delfin", "Nashorn", "Eisbär"],
+        "correct": 1
+    },
+    {
+        "text":"Welche Insekten schmecken mit ihren Füssen?",
+        "answers": ["Bienen", "Schmetterlinge", "Marienkäfer"],
+        "correct": 2
+    },
+    {
+        "text":"Wie nennt man einen Körper, der sechs gleich grosse, quadratische Seitenflächen hat?",
+        "answers": ["Würfel", "Quader", "Rechteck"],
+        "correct": 1
+    },
+    {
+        "text":"Wie heisst der zweithöchste Berg der Welt?",
+        "answers": ["Mount Everest", "K2", "Mont Blanc"],
+        "correct": 2
+    },
+    {
+        "text":"Wie lange dauert es, bis die Erde einmal komplett die Sonne umkreist?",
+        "answers": ["1 Tag", "1 Monat", "1 Jahr"],
+        "correct": 3
+    },
+    {
+        "text":"Welches ist das Musikvideo, das auf Youtube am meisten Views hat?",
+        "answers": ["Despacito", "Shape of You", "Gangnam Style"],
+        "correct": 1
+    },
+    {
+        "text":"Welche dieser Bands ist keine K-Pop-Band?",
+        "answers": ["Blackpink", "Big Bang", "Tang Dynasty"],
+        "correct": 3
+    },
+    {
+        "text":"Wie viele Knochen hat es im menschlichen Körper?",
+        "answers": ["115", "206", "283"],
+        "correct": 2
+    },
+    {
+        "text":"Was ergibt 17 mal 17?",
+        "answers": ["269", "279", "289"],
+        "correct": 3
+    },
+    {
+        "text":"Welcher Handy-Hersteller stellt das Modell Xperia her?",
+        "answers": ["Nokia", "Samsung", "Sony"],
+        "correct": 3
+    },
+    {
+        "text":"Welche NASA-Mission brachte erstmals erfolgreich Menschen auf den Mond?",
+        "answers": ["Apollo 11", "Apollo 12", "Apollo 13"],
+        "correct": 1
+    },
+    {
+        "text":"Welche dieser Sprachen hat das längste Alphabet?",
+        "answers": ["Griechisch", "Russisch", "Arabisch"],
+        "correct": 2
+    },
+    {
+        "text":"Welches ist die Hauptstadt von Australien?",
+        "answers": ["Sydney", "Melbourne", "Canberra"],
+        "correct": 3
+    },
+    {
+        "text":"Welcher Song hat aktuell die meisten Streams auf Spotify?",
+        "answers": ["Blinding Lights", "Shape of You", "Someone You Loved"],
+        "correct": 1
+    },
+    {
+        "text":"Wie heisst Eminem mit bürgerlichem Namen?",
+        "answers": ["Eric Minem", "Marshall Mathers", "Slim Shady"],
+        "correct": 2
+    },
+    {
+        "text":"Welcher Fluss fliesst durch Paris?",
+        "answers": ["Rhone", "Themse", "Seine"],
+        "correct": 3
+    },
+    {
+        "text":"Welches Land hat den USA die Freiheitsstatue geschenkt?",
+        "answers": ["England", "Kanada", "Frankreich"],
+        "correct": 3
+    },
+    {
+        "text":"Wie viele Elemente gibt es im Periodensystem?",
+        "answers": ["112", "116", "118"],
+        "correct": 3
+    },
+    {
+        "text":"Wie heisst das neuste Album von Taylor Swift?",
+        "answers": ["The Tortured Poets Department", "Midnights", "The Life of a Showgirl"],
+        "correct": 3
+    },
+    {
+        "text":"Wie lange würde es durchschnittlich dauern, bis eine Glasflasche zersetzt ist?",
+        "answers": ["100 Jahre", "4000 Jahre", "80000 Jahre"],
+        "correct": 2
+    },
+    {
+        "text":"Wie heisst der sehr erfolgreiche Schaffhauser Eiskunstläufer?",
+        "answers": ["Marco Kern", "Lukas Britschgi", "Tim Schläpfer"],
+        "correct": 2
+    },
+    {
+        "text":"Was ist auf dem Dorf-Wappen von Siblingen zu sehen?",
+        "answers": ["Ein Stier", "Eine Pflugschar und eine Sichel", "eine Tanne"],
+        "correct": 3
+    },
+    {
+        "text":"Wie viele Einwohner hatte Beringen (inkl. Guntmadingen) 2025?",
+        "answers": ["4555", "5103", "5402"],
+        "correct": 3
+    },
+    {
+        "text":"Wie viele Einwohner hat die Gemeinde Buch, die kleinste im Kanton SH?",
+        "answers": ["336", "423", "498"],
+        "correct": 1
+    },
+    {
+        "text":"Wie viele Stunden hat der Volg Löhningen normalerweise geöffnet?",
+        "answers": ["13", "14", "15"],
+        "correct": 3
+    },
+    {
+        "text":"Seit wann gehört Schaffhausen zur Schweiz?",
+        "answers": ["1291", "1501", "1648"],
+        "correct": 2
+    }
+]
